@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'screens/home.dart';
+import 'screens/feed.dart';
+import 'screens/profile.dart';
 
 void main() {
   runApp(new MyApp());
@@ -30,17 +32,34 @@ class Display extends StatefulWidget {
 }
 
 class _DisplayState extends State<Display> {
+
+  int selectedIndex = 0;
+
+  final screenOptions = [
+    const Home_Page(),
+    const Feed_Page(),
+    const Profile_Page(),
+  ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Home_Page(),
+      body: screenOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        currentIndex: selectedIndex,
+        onTap: onItemTapped,
+        elevation: 5,
+        iconSize: 30,
         backgroundColor: Colors.pink,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,
-        type: BottomNavigationBarType.shifting,
-        elevation: 5,
-        iconSize: 30,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helpmeout/services/carpooling.dart';
+import 'package:helpmeout/services/lostnfound.dart';
 
 class Home_Page extends StatefulWidget {
   const Home_Page({Key? key}) : super(key: key);
@@ -11,18 +13,21 @@ class ServiceIcon {
   final String title;
   final Icon icon;
   final Color color;
-  const ServiceIcon(this.title, this.icon, this.color);
+  final StatefulWidget page;
+  const ServiceIcon(this.title, this.icon, this.color, this.page);
 }
 
 class _Home_PageState extends State<Home_Page> {
 
   List<ServiceIcon> serviceicons = <ServiceIcon>[
-    ServiceIcon('Car Pooling',Icon(Icons.car_rental),Colors.cyanAccent),
-    ServiceIcon('Car Pooling',Icon(Icons.car_rental),Colors.indigoAccent),
-    ServiceIcon('Car Pooling',Icon(Icons.car_rental),Colors.yellowAccent),
-    ServiceIcon('Car Pooling',Icon(Icons.car_rental),Colors.greenAccent),
-    ServiceIcon('Car Pooling',Icon(Icons.car_rental),Colors.purpleAccent),
-    ServiceIcon('Car Pooling',Icon(Icons.car_rental),Colors.redAccent),
+    ServiceIcon('Car Pooling', Icon(Icons.car_rental), Colors.cyanAccent, CarPoolingPage()),
+    ServiceIcon('Lost & Found', Icon(Icons.car_rental), Colors.indigoAccent, LostFoundPage()),
+    ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent, CarPoolingPage()),
+    ServiceIcon('Food Order',Icon(Icons.car_rental),Colors.greenAccent,CarPoolingPage()),
+    ServiceIcon('Buy & Sell',Icon(Icons.car_rental),Colors.purpleAccent, CarPoolingPage()),
+    ServiceIcon('Bus Book',Icon(Icons.car_rental),Colors.redAccent, CarPoolingPage()),
+    ServiceIcon('Mess Feedback',Icon(Icons.car_rental),Colors.redAccent, CarPoolingPage()),
+    ServiceIcon('Extra',Icon(Icons.car_rental),Colors.redAccent, CarPoolingPage()),
   ];
 
   String inkwel = '';
@@ -127,28 +132,37 @@ class _Home_PageState extends State<Home_Page> {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: serviceicons.length,
                   itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: serviceicons[index].color,
-                            shape: BoxShape.circle,
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) {
+                            return serviceicons[index].page;
+                          }),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: serviceicons[index].color,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: serviceicons[index].icon,
+                            ),
                           ),
-                          child: Center(
-                            child: serviceicons[index].icon,
+                          SizedBox(height: 10),
+                          Text(serviceicons[index].title,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(serviceicons[index].title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
                 )
