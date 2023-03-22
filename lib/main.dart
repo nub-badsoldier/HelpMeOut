@@ -3,9 +3,15 @@ import 'package:flutter/rendering.dart';
 import 'screens/home.dart';
 import 'screens/feed.dart';
 import 'screens/profile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-void main() {
-  runApp(new MyApp());
+import 'services/services.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,71 +20,50 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'HelpMeOut',
-      home: Display(),
-      theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      debugShowCheckedModeBanner: false,
+      home: Gsign(),
     );
   }
 }
 
-class Display extends StatefulWidget {
-  const Display({Key? key}) : super(key: key);
-
+class Gsign extends StatefulWidget {
   @override
-  State<Display> createState() => _DisplayState();
+  State<Gsign> createState() => _GsignState();
 }
 
-class _DisplayState extends State<Display> {
-
-  int selectedIndex = 0;
-
-  final screenOptions = [
-    const Home_Page(),
-    const Feed_Page(),
-    const Profile_Page(),
-  ];
-
-  void onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
+class _GsignState extends State<Gsign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screenOptions.elementAt(selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        currentIndex: selectedIndex,
-        onTap: onItemTapped,
-        elevation: 5,
-        iconSize: 30,
-        backgroundColor: Colors.pink,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.pink,
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: 'Feed',
-            backgroundColor: Colors.pink,
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: Colors.pink,
-          )
-        ],
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Service',
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Colors.black,
+                    minimumSize: Size(double.infinity, 50)),
+                onPressed: () {
+                  Service variable = Service();
+                  variable.signup(context);
+                },
+                icon: const FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.red,
+                ),
+                label: const Text('Sign in with Google'),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
