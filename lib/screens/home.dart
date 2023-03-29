@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:helpmeout/main.dart';
 import 'package:helpmeout/services/carpooling.dart';
 import 'package:helpmeout/services/lostnfound.dart';
+
+import '../services/services.dart';
 
 class Home_Page extends StatefulWidget {
   const Home_Page({Key? key}) : super(key: key);
@@ -18,16 +21,23 @@ class ServiceIcon {
 }
 
 class _Home_PageState extends State<Home_Page> {
-
   List<ServiceIcon> serviceicons = <ServiceIcon>[
-    ServiceIcon('Car Pooling', Icon(Icons.car_rental), Colors.cyanAccent, CarPoolingPage()),
-    ServiceIcon('Lost & Found', Icon(Icons.car_rental), Colors.indigoAccent, LostFoundPage()),
-    ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent, CarPoolingPage()),
-    ServiceIcon('Food Order',Icon(Icons.car_rental),Colors.greenAccent,CarPoolingPage()),
-    ServiceIcon('Buy & Sell',Icon(Icons.car_rental),Colors.purpleAccent, CarPoolingPage()),
-    ServiceIcon('Bus Book',Icon(Icons.car_rental),Colors.redAccent, CarPoolingPage()),
-    ServiceIcon('Mess Feedback',Icon(Icons.car_rental),Colors.redAccent, CarPoolingPage()),
-    ServiceIcon('Extra',Icon(Icons.car_rental),Colors.redAccent, CarPoolingPage()),
+    ServiceIcon('Car Pooling', Icon(Icons.car_rental), Colors.cyanAccent,
+        CarPoolingPage()),
+    ServiceIcon('Lost & Found', Icon(Icons.car_rental), Colors.indigoAccent,
+        LostFoundPage()),
+    ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent,
+        CarPoolingPage()),
+    ServiceIcon('Food Order', Icon(Icons.car_rental), Colors.greenAccent,
+        CarPoolingPage()),
+    ServiceIcon('Buy & Sell', Icon(Icons.car_rental), Colors.purpleAccent,
+        CarPoolingPage()),
+    ServiceIcon(
+        'Bus Book', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
+    ServiceIcon('Mess Feedback', Icon(Icons.car_rental), Colors.redAccent,
+        CarPoolingPage()),
+    ServiceIcon(
+        'Extra', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
   ];
 
   String inkwel = '';
@@ -39,80 +49,83 @@ class _Home_PageState extends State<Home_Page> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 35, left: 15, right: 15, bottom: 10),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              padding:
+                  EdgeInsets.only(top: 35, left: 15, right: 15, bottom: 10),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
-              ),
-              color: Colors.pink,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Hello User',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InkWell(
-                          onTap: () {
-
-                          },
-                          child: Icon(
-                            Icons.notifications,
-                            size: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-
-                          },
-                          child: Icon(
-                            Icons.logout,
-                            size: 30,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
                 ),
-                SizedBox(height: 10),
-                Container(
-                  margin: EdgeInsets.only(top: 5, bottom: 10),
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Search',
-                      hintStyle: TextStyle(
-                        color: Colors.black.withOpacity(0.5),
+                color: Colors.pink,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Hello User',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
                       ),
-                      prefixIcon: Icon(Icons.search, size: 24),
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.notifications,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          InkWell(
+                            onTap: () async {
+                              Service service = Service();
+                              await service.signOut();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyApp()));
+                            },
+                            child: Icon(
+                              Icons.logout,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                )
-              ],
-            )
-          ),
+                  SizedBox(height: 10),
+                  Container(
+                    margin: EdgeInsets.only(top: 5, bottom: 10),
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Search',
+                        hintStyle: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                        prefixIcon: Icon(Icons.search, size: 24),
+                      ),
+                    ),
+                  )
+                ],
+              )),
           Padding(
             padding: EdgeInsets.only(top: 15, left: 15, right: 15),
             child: Column(
@@ -120,7 +133,8 @@ class _Home_PageState extends State<Home_Page> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Services',
+                    Text(
+                      'Services',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 24,
@@ -132,12 +146,12 @@ class _Home_PageState extends State<Home_Page> {
                           inkwel = 'Pressed See All';
                         });
                       },
-                      child: Text('See All',
+                      child: Text(
+                        'See All',
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          color: Colors.pink
-                        ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: Colors.pink),
                       ),
                     )
                   ],
@@ -176,7 +190,8 @@ class _Home_PageState extends State<Home_Page> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(serviceicons[index].title,
+                          Text(
+                            serviceicons[index].title,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
