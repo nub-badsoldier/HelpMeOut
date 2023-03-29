@@ -61,11 +61,32 @@ class _Home_PageState extends State<Home_Page> {
                         color: Colors.white,
                       ),
                     ),
-                    Icon(
-                      Icons.notifications,
-                      size: 30,
-                      color: Colors.white,
-                    )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {
+
+                          },
+                          child: Icon(
+                            Icons.notifications,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+
+                          },
+                          child: Icon(
+                            Icons.logout,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
                 SizedBox(height: 10),

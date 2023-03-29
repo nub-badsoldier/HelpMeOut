@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'screens/home.dart';
-import 'screens/feed.dart';
-import 'screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Gsign(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
