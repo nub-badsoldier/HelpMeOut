@@ -23,6 +23,8 @@ class Service {
       User? user = result.user;
       print(user);
       print("########");
+      print(user?.email);
+      print(user?.photoURL);
       if (result != null) {
         // Navigator.pushReplacement(context,
         //     MaterialPageRoute(builder: (context) => const FirstPage()));
@@ -31,6 +33,10 @@ class Service {
       } // if result not null we simply call the MaterialpageRoute,
       // for go to the HomePage screen
     }
+  }
+
+  String? getDetails() {
+    if (_auth.currentUser?.email != null) return _auth.currentUser?.email;
   }
 
   Future<void> signOut() async {
