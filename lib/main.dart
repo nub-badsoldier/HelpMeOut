@@ -71,7 +71,7 @@ class _GsignState extends State<Gsign> {
                 enabledBorder: inputBorder,
                 filled: true, contentPadding: EdgeInsets.all(8),
               ),
-                keyboardType: TextInputType.emailAddress),
+                keyboardType: TextInputType.visiblePassword),
             const SizedBox(
               height: 24,
             ),
