@@ -6,7 +6,7 @@ import '../screens/home.dart';
 import '../screens/profile.dart';
 
 class FirstPage extends StatelessWidget {
-  const FirstPage({Key? key}) : super(key: key);
+  FirstPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class FirstPage extends StatelessWidget {
 }
 
 class Display extends StatefulWidget {
-  const Display({Key? key}) : super(key: key);
+  Display({Key? key}) : super(key: key);
 
   @override
   State<Display> createState() => _DisplayState();
@@ -31,8 +31,11 @@ class Display extends StatefulWidget {
 class _DisplayState extends State<Display> {
   int selectedIndex = 0;
 
+  _DisplayState();
+
+  //String varia=user_name;
   final screenOptions = [
-    const Home_Page(),
+    Home_Page(),
     const Feed_Page(),
     const Profile_Page(),
   ];
