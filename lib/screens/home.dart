@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpmeout/main.dart';
+import 'package:helpmeout/services/MessFeedback.dart';
 import 'package:helpmeout/services/carpooling.dart';
 import 'package:helpmeout/services/lostnfound.dart';
+import 'package:helpmeout/services/foodordering.dart';
 
 import '../services/services.dart';
 
@@ -29,17 +31,23 @@ class _Home_PageState extends State<Home_Page> {
     ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent,
         CarPoolingPage()),
     ServiceIcon('Food Order', Icon(Icons.car_rental), Colors.greenAccent,
-        CarPoolingPage()),
+        FoodorderingPage()),
     ServiceIcon('Buy & Sell', Icon(Icons.car_rental), Colors.purpleAccent,
         CarPoolingPage()),
     ServiceIcon(
         'Bus Book', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
     ServiceIcon('Mess Feedback', Icon(Icons.car_rental), Colors.redAccent,
-        CarPoolingPage()),
+        MessFeedBackPage()),
     ServiceIcon(
         'Extra', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
   ];
-
+  /*void launchURl(String url) async {
+    if(await canLaunch(url) ){
+      await launchURL(url);
+    } else{
+      throw 'Could not launch $url';
+    }
+  }*/
   String inkwel = '';
   @override
   Widget build(BuildContext context) {

@@ -53,7 +53,6 @@ class _DisplayState extends State<Display> {
         onTap: onItemTapped,
         elevation: 5,
         iconSize: 30,
-        backgroundColor: Colors.pink,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,
         items: const <BottomNavigationBarItem>[
@@ -65,7 +64,7 @@ class _DisplayState extends State<Display> {
           BottomNavigationBarItem(
             icon: Icon(Icons.newspaper),
             label: 'Feed',
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

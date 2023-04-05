@@ -30,7 +30,11 @@ class Gsign extends StatefulWidget {
 
 class _GsignState extends State<Gsign> {
   @override
+  late TextEditingController textEditingController=TextEditingController();
+  late TextEditingController texteditingController2=TextEditingController();
+  bool isLoading = false;
   Widget build(BuildContext context) {
+    final inputBorder = OutlineInputBorder(borderSide: Divider.createBorderSide(context));
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -42,6 +46,56 @@ class _GsignState extends State<Gsign> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Image.asset(
+                'assets/Logo.jpg',
+                fit: BoxFit.cover,
+              )
+            ]
+            ),
+            TextField(
+                controller: textEditingController,
+                decoration: InputDecoration(
+                  border: inputBorder,
+                  focusedBorder: inputBorder,
+                  enabledBorder: inputBorder,
+                  filled: true, contentPadding: EdgeInsets.all(8),
+                ),
+                keyboardType: TextInputType.emailAddress),
+            const SizedBox(height: 20),
+            TextField(
+              controller: texteditingController2,
+              decoration: InputDecoration(
+                border: inputBorder,
+                focusedBorder: inputBorder,
+                enabledBorder: inputBorder,
+                filled: true, contentPadding: EdgeInsets.all(8),
+              ),
+                keyboardType: TextInputType.emailAddress),
+            const SizedBox(
+              height: 24,
+            ),
+            InkWell(
+              child: Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
+                    ),
+                    color: Colors.blue),
+                child: isLoading
+                    ? const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+                    : const Text('Log in'),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton.icon(
@@ -59,10 +113,10 @@ class _GsignState extends State<Gsign> {
                 ),
                 label: const Text('Sign in with Google'),
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+            ]
+    )
+            ),
     );
   }
 }
