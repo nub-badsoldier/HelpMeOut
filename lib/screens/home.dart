@@ -27,7 +27,7 @@ class _Home_PageState extends State<Home_Page> {
     ServiceIcon('Car Pooling', Icon(Icons.car_rental), Colors.cyanAccent,
         CarPoolingPage()),
     ServiceIcon('Lost & Found', Icon(Icons.car_rental), Colors.indigoAccent,
-        LostFoundPage()),
+        lostandfoundPage()),
     ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent,
         CarPoolingPage()),
     ServiceIcon('Food Order', Icon(Icons.car_rental), Colors.greenAccent,

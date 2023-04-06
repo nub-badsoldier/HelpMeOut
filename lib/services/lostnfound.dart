@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class LostFoundPage extends StatefulWidget {
-  const LostFoundPage({Key? key}) : super(key: key);
+class lostandfoundPage extends StatefulWidget {
+  const lostandfoundPage({Key? key}) : super(key: key);
 
   @override
-  State<LostFoundPage> createState() => _LostFoundPageState();
+  _lostandfoundPageState createState() => _lostandfoundPageState();
 }
 
-class _LostFoundPageState extends State<LostFoundPage> {
+class _lostandfoundPageState extends State<lostandfoundPage> {
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..loadRequest(
+        Uri.parse('https://lnf.iiita.ac.in/'),
+      );
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Scaffold(
-        appBar: AppBar(
-        title: Text('Lost And Found'),
-    ),
-    body: Center(child: Column(children: <Widget>[
-          Container(
-          margin: EdgeInsets.all(25),
-          child: Text('Visit Website', style: TextStyle(fontSize: 20.0),),
-        ),
-     ]
-    )
-    )
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Lost And Found Website'),
+      ),
+      body: WebViewWidget(
+        controller: controller, // Allow JavaScript in WebView
+      ),
     );
   }
 }
