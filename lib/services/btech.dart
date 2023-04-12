@@ -134,7 +134,6 @@ class BTech extends StatelessWidget {
                 child: Text('sem 8'),
               ),
               SizedBox(height: 16.0),
-
               // Add spacing between buttons
               // Add more buttons as needed
             ],
