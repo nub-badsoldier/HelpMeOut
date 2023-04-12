@@ -18,7 +18,6 @@ class _Feed_PageState extends State<Feed_Page> {
       child: Stack(
         children: [
           Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: EdgeInsets.only(top: 35, left: 15, right: 15, bottom: 15),
@@ -37,11 +36,12 @@ class _Feed_PageState extends State<Feed_Page> {
                   ],
                 ),
               ),
-              SingleChildScrollView(
-                padding: EdgeInsets.only(left: 5, right: 5),
-                scrollDirection: Axis.vertical,
-                child: Feed(),
-              )
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Feed(),
+                ),
+              ),
             ],
           ),
           Container(
@@ -77,19 +77,31 @@ class _FeedState extends State<Feed> {
     return StreamBuilder<QuerySnapshot>(
       stream: feedref,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }else if (snapshot.connectionState == ConnectionState.active
+                || snapshot.connectionState == ConnectionState.done) {
+
+          if (snapshot.hasError) {
+            return const Text('Error');
+          } else if (snapshot.hasData) {
+            List<Widget> feedlist = snapshot.data!.docs.map((DocumentSnapshot document) {
+              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+              return Post(
+                uid: data['uid'],
+                desc: data['desc'],
+                likes: data['likes'],
+              );
+            }).toList();
+            return Column(children: feedlist);
+          } else {
+            return const Text('Empty data');
+          }
+        } else {
+          return Text('State: ${snapshot.connectionState}');
         }
-        return Column(
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-            return Post(
-              uid: data['uid'],
-              desc: data['desc'],
-              likes: data['likes'],
-            );
-          }).toList(),
-        );
       },
     );
   }

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class Post extends StatefulWidget {
   String? uid;
@@ -12,22 +12,46 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
+  var userName = '';
+  var userPhotoUrl = '';
+
+  bool loaded = false;
+
+  void getUserData() async {
+    final docRef = await FirebaseFirestore.instance.collection("user").doc(widget.uid);
+    docRef.get().then((DocumentSnapshot doc) {
+      final userdata = doc.data() as Map<String, dynamic>;
+      userName = userdata['name'];
+      userPhotoUrl = userdata['photourl'];
+      setState(() {
+        loaded = true;
+      });
+    },
+        onError: (e) => print("Error getting document: $e")
+    );
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    UserDetail _detail = UserDetail(widget.uid);
-    String userphotoUrl = _detail.getPhotoUrl();
-    String userName = _detail.getName();
-
+    if (!loaded) {
+      return Container();
+    }
+    else
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(bottom: 5,left: 5, right: 5),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 2,
-          )
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 2,
+            )
         ),
       ),
       child: Column(
@@ -37,7 +61,7 @@ class _PostState extends State<Post> {
               child: Row(
                 children: [
                   Image.network(
-                    userphotoUrl,
+                    userPhotoUrl,
                     width: 30,
                     height: 30,
                     errorBuilder: (context, error, stackTrace) {
@@ -57,13 +81,13 @@ class _PostState extends State<Post> {
           ),
           Divider(thickness: 2),
           Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.desc!,
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            )
+              alignment: Alignment.centerLeft,
+              child: Text(
+                widget.desc!,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              )
           ),
           SizedBox(height: 10),
           Row(
@@ -80,28 +104,5 @@ class _PostState extends State<Post> {
         ],
       ),
     );
-  }
-}
-
-class UserDetail {
-  String userPhotoUrl = '';
-  String userName = '';
-
-  UserDetail(String? uid) {
-    final docRef = FirebaseFirestore.instance.collection("user").doc(uid);
-    docRef.get().then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        this.userName = data['name'];
-        this.userPhotoUrl = data['photourl'];
-    });
-  }
-
-  String getName() {
-    return this.userName;
-  }
-
-  String getPhotoUrl() {
-    return this.userPhotoUrl;
   }
 }

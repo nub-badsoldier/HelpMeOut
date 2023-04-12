@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'sem1.dart';
+import 'package:helpmeout/services/sem1.dart';
 
 class BTech extends StatelessWidget {
   @override
@@ -135,6 +134,7 @@ class BTech extends StatelessWidget {
                 child: Text('sem 8'),
               ),
               SizedBox(height: 16.0),
+
               // Add spacing between buttons
               // Add more buttons as needed
             ],

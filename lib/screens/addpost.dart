@@ -19,7 +19,7 @@ class AddPost extends StatelessWidget {
         'postid': postid,
         'likes': likes,
       });
-      Navigator.pop(context);
+      Navigator.of(context).pop();
     }
 
     return Scaffold(

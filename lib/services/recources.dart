@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'btech.dart';
+import 'package:helpmeout/services/btech.dart';
 
-class Resources extends StatelessWidget {
+class RecourcesPage extends StatefulWidget {
+  const RecourcesPage({Key? key}) : super(key: key);
+
+  @override
+  State<RecourcesPage> createState() => _RecourcesPageState();
+}
+
+class _RecourcesPageState extends State<RecourcesPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

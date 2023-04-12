@@ -39,7 +39,7 @@ class Service {
             userInst.doc(user?.uid).set(uploadData);
           }
         },
-          onError: () => null,
+          onError: (e) => null,
         );
         // Navigator.pushReplacement(context,
         //     MaterialPageRoute(builder: (context) => const FirstPage()));

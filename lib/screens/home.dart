@@ -4,6 +4,7 @@ import 'package:helpmeout/services/MessFeedback.dart';
 import 'package:helpmeout/services/carpooling.dart';
 import 'package:helpmeout/services/lostnfound.dart';
 import 'package:helpmeout/services/foodordering.dart';
+import 'package:helpmeout/services/recources.dart';
 
 import '../services/services.dart';
 
@@ -29,7 +30,7 @@ class _Home_PageState extends State<Home_Page> {
     ServiceIcon('Lost & Found', Icon(Icons.car_rental), Colors.indigoAccent,
         lostandfoundPage()),
     ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent,
-        CarPoolingPage()),
+        RecourcesPage()),
     ServiceIcon('Food Order', Icon(Icons.car_rental), Colors.greenAccent,
         FoodorderingPage()),
     ServiceIcon('Buy & Sell', Icon(Icons.car_rental), Colors.purpleAccent,
