@@ -5,10 +5,13 @@ import 'package:helpmeout/services/carpooling.dart';
 import 'package:helpmeout/services/lostnfound.dart';
 import 'package:helpmeout/services/foodordering.dart';
 
+import '../services/buyandsell.dart';
 import '../services/services.dart';
 
 class Home_Page extends StatefulWidget {
-  Home_Page({Key? key,}) : super(key: key);
+  Home_Page({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Home_Page> createState() => _Home_PageState();
@@ -32,8 +35,8 @@ class _Home_PageState extends State<Home_Page> {
         CarPoolingPage()),
     ServiceIcon('Food Order', Icon(Icons.car_rental), Colors.greenAccent,
         FoodorderingPage()),
-    ServiceIcon('Buy & Sell', Icon(Icons.car_rental), Colors.purpleAccent,
-        CarPoolingPage()),
+    ServiceIcon(
+        'Buy & Sell', Icon(Icons.car_rental), Colors.purpleAccent, Sell()),
     ServiceIcon(
         'Bus Book', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
     ServiceIcon('Mess Feedback', Icon(Icons.car_rental), Colors.redAccent,

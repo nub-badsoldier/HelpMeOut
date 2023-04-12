@@ -29,17 +29,23 @@ class Service {
       if (result != null) {
         final userInst = FirebaseFirestore.instance.collection("user");
         final query = userInst.where(userInst.doc().id, isEqualTo: user?.uid);
-        query.get().then((querySnapshot) {
-          if (querySnapshot.docs.length == 0) {
-            final uploadData = <String, dynamic> {
-              'name' : user?.displayName,
-              'photourl' : user?.photoURL,
-              'email' : user?.email,
-            };
-            userInst.doc(user?.uid).set(uploadData);
-          }
-        },
-          onError: () => null,
+        query.get().then(
+          (querySnapshot) {
+            if (querySnapshot.docs.length == 0) {
+              final uploadData = <String, dynamic>{
+                'name': user?.displayName,
+                'photourl': user?.photoURL,
+                'email': user?.email,
+              };
+              userInst.doc(user?.uid).set(uploadData);
+            }
+          },
+          // onError: () => null,
+          onError: (error, stackTrace) {
+            // Handle the error here
+            print('Error: $error');
+            print('Stack Trace: $stackTrace');
+          },
         );
         // Navigator.pushReplacement(context,
         //     MaterialPageRoute(builder: (context) => const FirstPage()));

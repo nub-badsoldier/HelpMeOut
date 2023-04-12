@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+//import 'main.dart';
 import 'sem1.dart';
 
 class BTech extends StatelessWidget {
