@@ -4,7 +4,6 @@ import '../screens/feed.dart';
 import '../screens/home.dart';
 import '../screens/profile.dart';
 
-
 class FirstPage extends StatelessWidget {
   FirstPage({Key? key}) : super(key: key);
 
@@ -37,7 +36,7 @@ class _DisplayState extends State<Display> {
   final screenOptions = [
     Home_Page(),
     Feed_Page(),
-    Profile_Page(),
+    Profile(),
   ];
 
   void onItemTapped(int index) {
