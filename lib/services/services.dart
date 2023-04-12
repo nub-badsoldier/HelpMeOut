@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'FirstPage.dart';
 
 class Service {
@@ -26,6 +27,20 @@ class Service {
       print(user?.email);
       print(user?.photoURL);
       if (result != null) {
+        final userInst = FirebaseFirestore.instance.collection("user");
+        final query = userInst.where(userInst.doc().id, isEqualTo: user?.uid);
+        query.get().then((querySnapshot) {
+          if (querySnapshot.docs.length == 0) {
+            final uploadData = <String, dynamic> {
+              'name' : user?.displayName,
+              'photourl' : user?.photoURL,
+              'email' : user?.email,
+            };
+            userInst.doc(user?.uid).set(uploadData);
+          }
+        },
+          onError: () => null,
+        );
         // Navigator.pushReplacement(context,
         //     MaterialPageRoute(builder: (context) => const FirstPage()));
         Navigator.push(

@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
 import '../screens/feed.dart';
 import '../screens/home.dart';
 import '../screens/profile.dart';
@@ -38,8 +36,8 @@ class _DisplayState extends State<Display> {
   //String varia=user_name;
   final screenOptions = [
     Home_Page(),
-    const Feed_Page(),
-    const Profile_Page(),
+    Feed_Page(),
+    Profile_Page(),
   ];
 
   void onItemTapped(int index) {
