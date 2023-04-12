@@ -19,7 +19,7 @@ class Profile extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -28,7 +28,7 @@ class Profile extends StatelessWidget {
                     backgroundImage:
                         AssetImage('assets/images/profile_picture.jpg'),
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 20.0),
                   Text(
                     'John Doe',
                     style: TextStyle(
@@ -40,7 +40,7 @@ class Profile extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
               color: Colors.blueGrey[100],
@@ -50,7 +50,17 @@ class Profile extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
             child: _buildProfileInfo('ID', '12345'),
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 25.0),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.blueGrey[100],
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.all(10.0),
+            child: _buildProfileInfo('Email', 'first@gmail.com'),
+          ),
+          SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
               color: Colors.grey[200],
@@ -60,7 +70,7 @@ class Profile extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
             child: _buildProfileInfo('Batch', '2019-2023'),
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
               color: Colors.blue[100],
@@ -70,7 +80,7 @@ class Profile extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
             child: _buildProfileInfo('Hostel', 'ABC'),
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
               color: Colors.green[100],
@@ -80,7 +90,7 @@ class Profile extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
             child: _buildProfileInfo('Blood Group', 'O+'),
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
               color: Colors.orange[100],
