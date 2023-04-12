@@ -5,7 +5,8 @@ class Post extends StatefulWidget {
   String? uid;
   String? desc;
   int? likes;
-  Post({Key? key, this.uid, this.desc, this.likes}) : super(key: key);
+  String? attachment;
+  Post({Key? key, this.uid, this.desc, this.likes, this.attachment}) : super(key: key);
 
   @override
   State<Post> createState() => _PostState();
@@ -16,6 +17,7 @@ class _PostState extends State<Post> {
   var userPhotoUrl = '';
 
   bool loaded = false;
+  bool attachment = false;
 
   void getUserData() async {
     final docRef = await FirebaseFirestore.instance.collection("user").doc(widget.uid);
@@ -33,6 +35,9 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
+    if (widget.attachment != '') {
+      attachment = true;
+    }
     getUserData();
     super.initState();
   }
@@ -45,7 +50,7 @@ class _PostState extends State<Post> {
     else
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.only(bottom: 5,left: 5, right: 5),
+      padding: EdgeInsets.only(bottom: 10,left: 10, right: 10),
       decoration: BoxDecoration(
         border: Border(
             bottom: BorderSide(
@@ -88,6 +93,15 @@ class _PostState extends State<Post> {
                   fontSize: 20,
                 ),
               )
+          ),
+          Container(
+            child: attachment
+            ? Image.network(
+              widget.attachment!,
+              height: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.8,
+            )
+            : SizedBox(height: 5),
           ),
           SizedBox(height: 10),
           Row(

@@ -93,6 +93,7 @@ class _FeedState extends State<Feed> {
                 uid: data['uid'],
                 desc: data['desc'],
                 likes: data['likes'],
+                attachment: data['url'],
               );
             }).toList();
             return Column(children: feedlist);

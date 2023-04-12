@@ -56,7 +56,7 @@ class _sellState extends State<sell> {
         'url': downloadURL,
         'itemname': item,
       });
-      Navigator.pop(context);
+      Navigator.of(context).pop();
     } else {
       print('No path received');
     }
