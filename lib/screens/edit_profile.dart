@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'profile.dart';
 
 class EditProfile extends StatefulWidget {
@@ -37,6 +39,17 @@ class _EditProfileState extends State<EditProfile> {
     _bloodGroupController.dispose();
     _contactController.dispose();
     super.dispose();
+  }
+
+  void saveDetails() async {
+    var uid = FirebaseAuth.instance.currentUser?.uid;
+    final userInst = FirebaseFirestore.instance.collection("user").doc(uid);
+    await userInst.update({
+      'id': _idController.value,
+      'hostel': _hostelController.value,
+      'batch': _batchController.value,
+      'contact': _contactController.value,
+    });
   }
 
   @override
@@ -106,6 +119,7 @@ class _EditProfileState extends State<EditProfile> {
               ElevatedButton(
                 onPressed: () {
                   // Save updated profile data here
+                  saveDetails();
                   Navigator.pop(context);
                 },
                 child: Text('Save'),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helpmeout/services/recources.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:flutter_document_picker/flutter_document_picker.dart';
 
 class Sem1 extends StatelessWidget {
   @override
@@ -115,6 +117,34 @@ class Sem1 extends StatelessWidget {
 }
 
 class Physics extends StatelessWidget {
+
+  Future<UploadTask> uploadFile(File file) async {
+    // if (file == null) {
+    //
+    //   return null;
+    // }
+
+    UploadTask uploadTask;
+
+    // Create a Reference to the file
+    final storage=FirebaseStorage.instance
+        .ref()
+        .child('resources/')
+        .child('sem1/')
+        .child('physics/')
+        .child(file.path);
+
+    final metadata = SettableMetadata(
+        contentType: 'file/pdf',
+        customMetadata: {'picked-file-path': file.path});
+    print("Uploading..!");
+
+    uploadTask = storage.putData(await file.readAsBytes(), metadata);
+
+    print("done..!");
+    return Future.value(uploadTask);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,11 +157,20 @@ class Physics extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                Text("OOPS! Nothing is Found :("),
-              ]))),
+                    Text("OOPS! Nothing is Found :("),
+                  ]
+              )
+          )
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => {},
+        onPressed: () async{
+          final path = await FlutterDocumentPicker.openDocument();
+          print(path);
+          File file = File(path!);
+          UploadTask task = await uploadFile(file);
+          Navigator.pop(context);
+        },
       ),
     );
   }

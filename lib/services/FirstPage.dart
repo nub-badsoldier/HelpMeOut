@@ -35,7 +35,7 @@ class _DisplayState extends State<Display> {
   final screenOptions = [
     Home_Page(),
     Feed_Page(),
-    Profile_Page(),
+    Profile(),
   ];
 
   void onItemTapped(int index) {

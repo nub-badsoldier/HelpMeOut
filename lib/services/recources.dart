@@ -11,29 +11,13 @@ class RecourcesPage extends StatefulWidget {
 class _RecourcesPageState extends State<RecourcesPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Resources',
-      theme: ThemeData(
-        primarySwatch: Colors.pink, // Set primary color swatch to pink
-        scaffoldBackgroundColor: Colors.white, // Set background color to white
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.pink, // Set button color to pink
-          shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(10.0), // Set button corner radius
-          ),
-        ),
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text('Hello User'),
       ),
       body: SingleChildScrollView(

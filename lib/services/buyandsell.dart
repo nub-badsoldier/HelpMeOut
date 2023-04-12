@@ -11,37 +11,47 @@ class Sell extends StatefulWidget {
 class _SellState extends State<Sell> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(40.0),
-            child: SizedBox(
-              height: 50,
-              width: 100,
-              child: ElevatedButton(
-                  onPressed: () {
-                    //   Navigator.push(context,
-                    //       MaterialPageRoute(builder: (context) => ));
-                  },
-                  child: Text(
-                    'Buy',
-                  )),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Buy and Sell'),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: SizedBox(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () {
+                      //   Navigator.push(context,
+                      //       MaterialPageRoute(builder: (context) => ));
+                    },
+                    child: Text(
+                      'Buy',
+                    )),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 50,
-            width: 100,
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => sell()));
-                },
-                child: Text(
-                  'Sell',
-                )),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: SizedBox(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => sell()));
+                    },
+                    child: Text(
+                      'Sell',
+                    )),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

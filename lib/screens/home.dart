@@ -5,7 +5,7 @@ import 'package:helpmeout/services/carpooling.dart';
 import 'package:helpmeout/services/lostnfound.dart';
 import 'package:helpmeout/services/foodordering.dart';
 import 'package:helpmeout/services/recources.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../services/buyandsell.dart';
 import '../services/services.dart';
 
@@ -23,10 +23,16 @@ class ServiceIcon {
   final Icon icon;
   final Color color;
   final StatefulWidget page;
-  const ServiceIcon(this.title, this.icon, this.color, this.page);
+  ServiceIcon(this.title, this.icon, this.color, this.page);
 }
 
 class _Home_PageState extends State<Home_Page> {
+  String? getDetails() {
+    if (FirebaseAuth.instance.currentUser?.email != null)
+      return FirebaseAuth.instance.currentUser?.email;
+  }
+
+  String? name = FirebaseAuth.instance.currentUser?.displayName;
   List<ServiceIcon> serviceicons = <ServiceIcon>[
     ServiceIcon('Car Pooling', Icon(Icons.car_rental), Colors.cyanAccent,
         CarPoolingPage()),
@@ -52,6 +58,7 @@ class _Home_PageState extends State<Home_Page> {
       throw 'Could not launch $url';
     }
   }*/
+
   String inkwel = '';
   @override
   Widget build(BuildContext context) {
@@ -182,9 +189,9 @@ class _Home_PageState extends State<Home_Page> {
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) {
-                            return serviceicons[index].page;
-                          }),
+                          MaterialPageRoute(
+                              builder: (context) => serviceicons[index].page
+                          ),
                         );
                       },
                       child: Column(

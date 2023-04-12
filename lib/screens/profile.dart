@@ -1,6 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:helpmeout/screens/edit_profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
+  String? email = FirebaseAuth.instance.currentUser?.email;
+  String? name = FirebaseAuth.instance.currentUser?.displayName;
+  String? photo = FirebaseAuth.instance.currentUser?.photoURL;
+  String batch = '2021 - 2025';
+  String hostel = 'BH - 1';
+  String contact = '1234567890';
+  String id = 'IIT20XXXXX';
+
+  bool loaded = false;
+
+  void getDetails() async {
+    final userRef = FirebaseFirestore.instance.collection("user").doc(uid);
+    await userRef.get().then(
+      (DocumentSnapshot document) {
+        final data = document.data() as Map<String, dynamic>;
+        batch = data['batch'];
+        hostel = data['hostel'];
+        contact = data['contact'];
+        id = data['id'];
+
+      }, onError: (e, stackTrace) {
+        print(e);
+        print(stackTrace);
+      }
+    );
+  }
+
+  @override
+  void initState() {
+    getDetails();
+    setState(() {
+      loaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,27 +55,32 @@ class Profile extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
-              // Implement your edit button functionality here
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => EditProfile())
+              );
             },
           ),
         ],
       ),
-      body: ListView(
+      body: !loaded
+        ? CircularProgressIndicator()
+        : ListView(
         children: <Widget>[
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
                     radius: 50.0,
-                    backgroundImage:
-                        AssetImage('assets/images/profile_picture.jpg'),
+                    // backgroundImage:
+                        // AssetImage('assets/avataricon.png'),
+                    backgroundImage: NetworkImage(photo!),
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    'John Doe',
+                    '$name',
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -48,7 +98,7 @@ class Profile extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(horizontal: 20.0),
             padding: EdgeInsets.all(10.0),
-            child: _buildProfileInfo('ID', '12345'),
+            child: _buildProfileInfo('ID', id),
           ),
           SizedBox(height: 25.0),
           Container(
@@ -58,7 +108,7 @@ class Profile extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(horizontal: 20.0),
             padding: EdgeInsets.all(10.0),
-            child: _buildProfileInfo('Email', 'first@gmail.com'),
+            child: _buildProfileInfo('Email', '$email'),
           ),
           SizedBox(height: 25.0),
           Container(
@@ -68,7 +118,7 @@ class Profile extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(horizontal: 20.0),
             padding: EdgeInsets.all(10.0),
-            child: _buildProfileInfo('Batch', '2019-2023'),
+            child: _buildProfileInfo('Batch', batch),
           ),
           SizedBox(height: 25.0),
           Container(
@@ -78,7 +128,7 @@ class Profile extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(horizontal: 20.0),
             padding: EdgeInsets.all(10.0),
-            child: _buildProfileInfo('Hostel', 'ABC'),
+            child: _buildProfileInfo('Hostel', hostel),
           ),
           SizedBox(height: 25.0),
           Container(
@@ -98,7 +148,7 @@ class Profile extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(horizontal: 20.0),
             padding: EdgeInsets.all(10.0),
-            child: _buildProfileInfo('Contact', '1234567890'),
+            child: _buildProfileInfo('Contact', contact),
           ),
         ],
       ),
@@ -111,11 +161,11 @@ class Profile extends StatelessWidget {
       children: <Widget>[
         Text(
           label,
-          style: TextStyle(fontSize: 16.0),
+          style: TextStyle(fontSize: 14.0),
         ),
         Text(
           value,
-          style: TextStyle(fontSize: 20.0),
+          style: TextStyle(fontSize: 18.0),
         ),
       ],
     );

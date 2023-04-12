@@ -19,7 +19,7 @@ class _AddPostState extends State<AddPost> {
   String? uid = FirebaseAuth.instance.currentUser?.uid;
   String postid = '${randomAlpha(15)}';
   int likes = 0;
-  late File imageFile;
+  File? imageFile;
 
   Future getImage() async {
     try {
@@ -30,6 +30,7 @@ class _AddPostState extends State<AddPost> {
       final attachpath = File(attachment.path);
       setState(() {
         imageFile = attachpath;
+        image = true;
       });
     } catch (e) {
       print('Not able to fetch image');
@@ -38,7 +39,7 @@ class _AddPostState extends State<AddPost> {
 
   void _addpost() async {
     var downloadURL = '';
-    if (imageFile != null) {
+    if (image) {
       final storage = FirebaseStorage.instance
           .ref()
           .child('feed_attachments')
@@ -54,7 +55,6 @@ class _AddPostState extends State<AddPost> {
       'likes': likes,
       'url': downloadURL,
     });
-    Navigator.of(context).pop();
   }
 
   @override
@@ -67,6 +67,34 @@ class _AddPostState extends State<AddPost> {
         padding: EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(
           children: [
+            InkWell(
+              onTap: () {
+                getImage();
+              },
+              child: Container(
+                width: 200,
+                height: 200,
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  child: image
+                      ? Image.file(
+                        imageFile!,
+                        fit: BoxFit.cover,
+                      )
+                      : Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.grey,
+                        ),
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.black,
+                        ),
+                      ),
+                ),
+              ),
+            ),
             SizedBox(
               height: 200,
               child: TextField(
@@ -82,39 +110,11 @@ class _AddPostState extends State<AddPost> {
                 },
               ),
             ),
-            InkWell(
-              onTap: () {
-                getImage();
-                setState(() {
-                  image = true;
-                });
-              },
-              child: Container(
-                width: 200,
-                height: 200,
-                margin: EdgeInsets.only(top: 10, bottom: 10),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  child: image
-                      ? Image.file(
-                        imageFile,
-                        fit: BoxFit.fill,
-                      )
-                      : Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Colors.grey,
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.black,
-                        ),
-                      ),
-                ),
-              ),
-            ),
             ElevatedButton(
-              onPressed: _addpost,
+              onPressed: () {
+                _addpost();
+                Navigator.pop(context);
+              },
               child: Text('Post')
             )
           ],
