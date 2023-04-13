@@ -106,7 +106,14 @@ class _PostState extends State<Post> {
           SizedBox(height: 10),
           Row(
             children: [
-              Icon(Icons.thumb_up_off_alt),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.likes = widget.likes! + 1;
+                    });
+                  },
+                  icon: Icon(Icons.thumb_up_off_alt)
+              ),
               SizedBox(width: 2),
               Text(widget.likes.toString(), style: TextStyle(fontSize: 16)),
               Spacer(),

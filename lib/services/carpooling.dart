@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:helpmeout/services/carpooling.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:helpmeout/services/pool.dart';
 
 class CarPoolingPage extends StatefulWidget {
   const CarPoolingPage({Key? key}) : super(key: key);
@@ -15,15 +18,15 @@ class _CarPoolingPageState extends State<CarPoolingPage> {
         appBar: AppBar(
           title: Text('Car Pooling'),
         ),
-        body: Column(
-          children: [
-            PoolRequest(),
-          ],
+        body: SingleChildScrollView(
+          child: Poolrequest(),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: ()=> {
-
+          Navigator.push(
+            context, MaterialPageRoute(builder: (context) => pool())
+          )
           },
         ),
       ),
@@ -34,8 +37,8 @@ class _CarPoolingPageState extends State<CarPoolingPage> {
 class PoolRequest extends StatefulWidget {
   String? source, destination;
   int? fare;
-  DateTime? dateTime;
-  PoolRequest({Key? key, this.source, this.destination, this.fare, this.dateTime}) : super(key: key);
+  String? Date,Time,type,contact,name;
+  PoolRequest({Key? key, this.source, this.destination, this.fare, this.Date,this.Time,this.type,this.contact,this.name}) : super(key: key);
 
   @override
   State<PoolRequest> createState() => _PoolRequestState();
@@ -48,7 +51,6 @@ class _PoolRequestState extends State<PoolRequest> {
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 10, left: 10, right: 10),
       padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-      height: 150,
       decoration: BoxDecoration(
         color: Colors.lightBlueAccent,
         border: Border.all(
@@ -58,13 +60,13 @@ class _PoolRequestState extends State<PoolRequest> {
       ),
       child: Column(
         children: [
-          Text('UserName', style: TextStyle(fontSize: 20)),
+          Text(widget.name!, style: TextStyle(fontSize: 20)),
           Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Source', style: TextStyle(fontSize: 20)),
-              Text('Destination', style: TextStyle(fontSize: 20)),
+              Text(widget.source!, style: TextStyle(fontSize: 20)),
+              Text(widget.destination!, style: TextStyle(fontSize: 20)),
             ],
           ),
           SizedBox(height: 10),
@@ -74,16 +76,72 @@ class _PoolRequestState extends State<PoolRequest> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Date', style: TextStyle(fontSize: 20)),
-                  Text('Time', style: TextStyle(fontSize: 20)),
+                  Text(widget.Date!, style: TextStyle(fontSize: 20)),
+                  Text(widget.Time!, style: TextStyle(fontSize: 20)),
                 ],
               ),
               SizedBox(width: 50),
-              Text('Fare', style: TextStyle(fontSize: 20)),
+              Text(widget.fare.toString(), style: TextStyle(fontSize: 20)),
+
             ],
-          )
+          ),
+          SizedBox(width: 50),
+          Text(widget.contact!, style: TextStyle(fontSize: 20)),
+
+          SizedBox(width: 50),
+          Text(widget.type!, style: TextStyle(fontSize: 20)),
         ],
       ),
+    );
+  }
+}
+
+class Poolrequest extends StatefulWidget {
+  const Poolrequest({Key? key}) : super(key: key);
+
+  @override
+  State<Poolrequest> createState() => _PoolrequestState();
+}
+
+class _PoolrequestState extends State<Poolrequest> {
+  Stream<QuerySnapshot> poolref = FirebaseFirestore.instance.collection("pool").snapshots();
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: poolref,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }else if (snapshot.connectionState == ConnectionState.active
+            || snapshot.connectionState == ConnectionState.done) {
+
+          if (snapshot.hasError) {
+            return const Text('Error');
+          } else if (snapshot.hasData) {
+            List<Widget> feedlist = snapshot.data!.docs.map((DocumentSnapshot document) {
+              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+              return PoolRequest(
+                source: data['source'],
+                destination: data['destination'],
+                Date: data['date'],
+                Time: data['time'],
+                type: data['type'],
+                contact: data['contact'],
+                name: data['name'],
+                fare: data['fare'],
+              );
+            }).toList();
+            return Column(children: feedlist);
+          } else {
+            return const Text('Empty data');
+          }
+        } else {
+          return Text('State: ${snapshot.connectionState}');
+        }
+      },
     );
   }
 }

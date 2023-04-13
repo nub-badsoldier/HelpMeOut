@@ -36,6 +36,10 @@ class Service {
                 'name': user?.displayName,
                 'photourl': user?.photoURL,
                 'email': user?.email,
+                'batch': '',
+                'hostel': '',
+                'id': '',
+                'contact': '',
               };
               userInst.doc(user?.uid).set(uploadData);
             }

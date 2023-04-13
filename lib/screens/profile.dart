@@ -16,9 +16,8 @@ class _ProfileState extends State<Profile> {
   String? photo = FirebaseAuth.instance.currentUser?.photoURL;
   String batch = '2021 - 2025';
   String hostel = 'BH - 1';
-  String contact = '1234567890';
+  String contact = '';
   String id = 'IIT20XXXXX';
-
   bool loaded = false;
 
   void getDetails() async {
@@ -30,10 +29,12 @@ class _ProfileState extends State<Profile> {
         hostel = data['hostel'];
         contact = data['contact'];
         id = data['id'];
-
+        setState(() {
+          loaded = true;
+        });
       }, onError: (e, stackTrace) {
-        print(e);
-        print(stackTrace);
+        print('error: $e');
+        print('StackTrace: $stackTrace');
       }
     );
   }
@@ -41,9 +42,6 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     getDetails();
-    setState(() {
-      loaded = true;
-    });
   }
 
   @override
@@ -55,8 +53,9 @@ class _ProfileState extends State<Profile> {
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
+              ProfileData _profileData = ProfileData(uid, email, name, photo, batch, contact, hostel, id);
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => EditProfile())
+                  context, MaterialPageRoute(builder: (context) => EditProfile(profileData: _profileData))
               );
             },
           ),
@@ -170,4 +169,9 @@ class _ProfileState extends State<Profile> {
       ],
     );
   }
+}
+
+class ProfileData {
+  String? uid, email, name, photo, batch, contact, hostel, id;
+  ProfileData(this.uid, this.email, this.name, this.photo, this.batch, this.contact, this.hostel, this.id);
 }
