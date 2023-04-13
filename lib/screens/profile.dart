@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:helpmeout/screens/edit_profile.dart';
+import 'package:helpmeout/components/ProfileData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile extends StatefulWidget {
@@ -169,9 +170,4 @@ class _ProfileState extends State<Profile> {
       ],
     );
   }
-}
-
-class ProfileData {
-  String? uid, email, name, photo, batch, contact, hostel, id;
-  ProfileData(this.uid, this.email, this.name, this.photo, this.batch, this.contact, this.hostel, this.id);
 }
