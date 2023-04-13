@@ -1,88 +1,128 @@
 import 'package:flutter/material.dart';
 
-class CarPoolingPage extends StatefulWidget {
-  const CarPoolingPage({Key? key}) : super(key: key);
-
+class CarpoolingPage extends StatefulWidget {
   @override
-  State<CarPoolingPage> createState() => _CarPoolingPageState();
+  _CarpoolingPageState createState() => _CarpoolingPageState();
 }
 
-class _CarPoolingPageState extends State<CarPoolingPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Car Pooling'),
-        ),
-        body: Column(
-          children: [
-            PoolRequest(),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: ()=> {
+class _CarpoolingPageState extends State<CarpoolingPage> {
+  final _formKey = GlobalKey<FormState>();
+  String? _location;
+  String? _destination;
+  DateTime? _date;
+  TimeOfDay? _time;
 
-          },
-        ),
-      ),
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2100),
     );
+    if (picked != null && picked != _date) {
+      setState(() {
+        _date = picked;
+      });
+    }
   }
-}
 
-class PoolRequest extends StatefulWidget {
-  String? source, destination;
-  int? fare;
-  DateTime? dateTime;
-  PoolRequest({Key? key, this.source, this.destination, this.fare, this.dateTime}) : super(key: key);
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+        context: context, initialTime: _time ?? TimeOfDay.now());
+    if (picked != null && picked != _time) {
+      setState(() {
+        _time = picked;
+      });
+    }
+  }
 
-  @override
-  State<PoolRequest> createState() => _PoolRequestState();
-}
-
-class _PoolRequestState extends State<PoolRequest> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-      height: 150,
-      decoration: BoxDecoration(
-        color: Colors.lightBlueAccent,
-        border: Border.all(
-          width: 2,
-          color: Colors.blueAccent,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Carpooling'),
       ),
-      child: Column(
-        children: [
-          Text('UserName', style: TextStyle(fontSize: 20)),
-          Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Source', style: TextStyle(fontSize: 20)),
-              Text('Destination', style: TextStyle(fontSize: 20)),
-            ],
-          ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Location'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please enter a location';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _location = value;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Destination'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please enter a destination';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _destination = value;
+                },
+              ),
+              SizedBox(height: 16.0),
+              Row(
                 children: [
-                  Text('Date', style: TextStyle(fontSize: 20)),
-                  Text('Time', style: TextStyle(fontSize: 20)),
+                  Expanded(
+                    child: Text(
+                      _date == null
+                          ? 'No date chosen'
+                          : 'Date: ${_date!.month}/${_date!.day}/${_date!.year}',
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _selectDate(context),
+                    child: Text('Choose Date'),
+                  ),
                 ],
               ),
-              SizedBox(width: 50),
-              Text('Fare', style: TextStyle(fontSize: 20)),
+              SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _time == null
+                          ? 'No time chosen'
+                          : 'Time: ${_time!.hour}:${_time!.minute}',
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _selectTime(context),
+                    child: Text('Choose Time'),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    _formKey.currentState?.save();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            'Location: $_location, Destination: $_destination, Date: ${_date?.toString() ?? ''}, Time: ${_time?.toString() ?? ''}'),
+                      ),
+                    );
+                  }
+                },
+                child: Text('Submit'),
+              ),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
