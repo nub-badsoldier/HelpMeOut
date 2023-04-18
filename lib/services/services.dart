@@ -28,10 +28,9 @@ class Service {
       print(user?.photoURL);
       if (result != null) {
         final userInst = FirebaseFirestore.instance.collection("user");
-        final query = userInst.where(userInst.doc().id, isEqualTo: user?.uid);
-        query.get().then(
-          (querySnapshot) {
-            if (querySnapshot.docs.length == 0) {
+        userInst.doc(user?.uid).get().then(
+          (DocumentSnapshot snapshot) {
+            if (!snapshot.exists) {
               final uploadData = <String, dynamic>{
                 'name': user?.displayName,
                 'photourl': user?.photoURL,

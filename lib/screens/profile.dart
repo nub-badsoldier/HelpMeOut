@@ -49,7 +49,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Profile'),
+        title: Text('Profile'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.edit),
@@ -63,7 +63,7 @@ class _ProfileState extends State<Profile> {
         ],
       ),
       body: !loaded
-        ? CircularProgressIndicator()
+        ? Center(child: CircularProgressIndicator())
         : ListView(
         children: <Widget>[
           Center(

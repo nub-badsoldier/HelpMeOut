@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Post extends StatefulWidget {
   String? uid;
   String? desc;
   int? likes;
+  String? postid;
+  DateTime? timestamp;
   String? attachment;
-  Post({Key? key, this.uid, this.desc, this.likes, this.attachment}) : super(key: key);
+  Post({Key? key, this.uid, this.desc, this.likes, this.attachment, this.postid, this.timestamp}) : super(key: key);
 
   @override
   State<Post> createState() => _PostState();
@@ -15,9 +18,11 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   var userName = '';
   var userPhotoUrl = '';
+  var time_stamp = '';
 
   bool loaded = false;
   bool attachment = false;
+  bool showcomment = false;
 
   void getUserData() async {
     final docRef = await FirebaseFirestore.instance.collection("user").doc(widget.uid);
@@ -33,12 +38,34 @@ class _PostState extends State<Post> {
     );
   }
 
+  void getComments() async {
+    final feedref = FirebaseFirestore.instance.collection("feed");
+    final commentRef = feedref.doc().collection("comments").where("postid", isEqualTo: widget.postid);
+  }
+
+  void formatTimeStamp() {
+    DateTime dt = widget.timestamp!;
+    DateTime current = DateTime.now();
+    if (dt.day == current.day && dt.month == current.month) {
+      int hourdif = current.hour - dt.hour;
+      int mindif = current.minute - dt.minute;
+      if (hourdif == 0) {
+        time_stamp = '${mindif} minutes ago';
+      }else {
+        time_stamp = '${hourdif} hours ago';
+      }
+    }else {
+      time_stamp = DateFormat.MMMd().format(dt);
+    }
+  }
+
   @override
   void initState() {
     if (widget.attachment != '') {
       attachment = true;
     }
     getUserData();
+    formatTimeStamp();
     super.initState();
   }
 
@@ -80,6 +107,14 @@ class _PostState extends State<Post> {
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
                     ),
+                  ),
+                  SizedBox(width: 15),
+                  Text(
+                    time_stamp,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w200,
+                    ),
                   )
                 ],
               )
@@ -94,16 +129,18 @@ class _PostState extends State<Post> {
                 ),
               )
           ),
+          SizedBox(height: 5),
           Container(
             child: attachment
             ? Image.network(
               widget.attachment!,
+
               height: MediaQuery.of(context).size.width * 0.8,
               width: MediaQuery.of(context).size.width * 0.8,
             )
             : SizedBox(height: 5),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
           Row(
             children: [
               IconButton(
@@ -117,11 +154,22 @@ class _PostState extends State<Post> {
               SizedBox(width: 2),
               Text(widget.likes.toString(), style: TextStyle(fontSize: 16)),
               Spacer(),
-              Icon(Icons.comment),
+              IconButton(
+                  onPressed: () {
+
+                  },
+                  icon: Icon(Icons.comment),
+              ),
               SizedBox(width: 2),
               Text('2', style: TextStyle(fontSize: 16)),
             ],
-          )
+          ),
+          showcomment
+            ? Padding(
+                padding: EdgeInsets.only(top: 5, left: 20, right: 5),
+                child: Column(),
+              )
+              : Container(),
         ],
       ),
     );

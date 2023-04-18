@@ -50,10 +50,11 @@ class _AddPostState extends State<AddPost> {
     }
     FirebaseFirestore.instance.collection("feeds").add({
       'uid': uid,
-      'desc': desc,
+      'desc': desc.trim(),
       'postid': postid,
       'likes': likes,
       'url': downloadURL,
+      'timestamp': Timestamp.now(),
     });
   }
 
@@ -65,59 +66,63 @@ class _AddPostState extends State<AddPost> {
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-        child: Column(
-          children: [
-            InkWell(
-              onTap: () {
-                getImage();
-              },
-              child: Container(
-                width: 200,
-                height: 200,
-                margin: EdgeInsets.only(top: 10, bottom: 10),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  child: image
-                      ? Image.file(
-                        imageFile!,
-                        fit: BoxFit.cover,
-                      )
-                      : Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Colors.grey,
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.black,
-                        ),
-                      ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              child: TextField(
-                expands: true,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Write Something...'
-                ),
-                onChanged: (text) {
-                  desc = text;
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  getImage();
                 },
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    child: image
+                        ? Image.file(
+                      imageFile!,
+                      fit: BoxFit.cover,
+                    )
+                        : Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.grey,
+                      ),
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _addpost();
-                Navigator.pop(context);
-              },
-              child: Text('Post')
-            )
-          ],
+              SizedBox(
+                height: 200,
+                child: TextField(
+                  expands: true,
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Write Something...'
+                  ),
+                  onChanged: (text) {
+                    desc = text;
+                  },
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    if (desc.trim() != "") {
+                      _addpost();
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('Post')
+              )
+            ],
+          ),
         ),
       )
     );

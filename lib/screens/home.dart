@@ -20,7 +20,7 @@ class Home_Page extends StatefulWidget {
 
 class ServiceIcon {
   final String title;
-  final Icon icon;
+  final Image icon;
   final Color color;
   final StatefulWidget page;
   ServiceIcon(this.title, this.icon, this.color, this.page);
@@ -34,22 +34,22 @@ class _Home_PageState extends State<Home_Page> {
 
   String? name = FirebaseAuth.instance.currentUser?.displayName;
   List<ServiceIcon> serviceicons = <ServiceIcon>[
-    ServiceIcon('Car Pooling', Icon(Icons.car_rental), Colors.cyanAccent,
+    ServiceIcon('Car Pooling', Image(image: AssetImage('assets/vehicle.png'), width: 34, height: 34), Colors.cyan[200]!,
         CarPoolingPage()),
-    ServiceIcon('Lost & Found', Icon(Icons.car_rental), Colors.indigoAccent,
+    ServiceIcon('Lost & Found', Image(image: AssetImage('assets/lost-and-found.png'), width: 34, height: 34), Colors.indigo[200]!,
         lostandfoundPage()),
-    ServiceIcon('Resources', Icon(Icons.car_rental), Colors.yellowAccent,
+    ServiceIcon('Resources', Image(image: AssetImage('assets/digital-library.png'), width: 34, height: 34), Colors.yellow[200]!,
         RecourcesPage()),
-    ServiceIcon('Food Order', Icon(Icons.car_rental), Colors.greenAccent,
+    ServiceIcon('Food Order', Image(image: AssetImage('assets/delivery-man.png'), width: 34, height: 34), Colors.green[200]!,
         FoodorderingPage()),
-    ServiceIcon(
-        'Buy & Sell', Icon(Icons.car_rental), Colors.purpleAccent, Sell()),
-    ServiceIcon(
-        'Bus Book', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
-    ServiceIcon('Mess Feedback', Icon(Icons.car_rental), Colors.redAccent,
+    ServiceIcon('Buy & Sell', Image(image: AssetImage('assets/buy.png'), width: 34, height: 34), Colors.purple[200]!,
+        Sell()),
+    ServiceIcon('Bus Book', Image(image: AssetImage('assets/vehicle.png'), width: 34, height: 34), Colors.red[200]!,
+        CarPoolingPage()),
+    ServiceIcon('Mess Feedback', Image(image: AssetImage('assets/good-review.png'), width: 34, height: 34), Colors.redAccent,
         MessFeedBackPage()),
-    ServiceIcon(
-        'Extra', Icon(Icons.car_rental), Colors.redAccent, CarPoolingPage()),
+    ServiceIcon('Extra', Image(image: AssetImage('assets/lost-and-found.png'), width: 34, height: 34), Colors.redAccent,
+        CarPoolingPage()),
   ];
   /*void launchURl(String url) async {
     if(await canLaunch(url) ){
@@ -64,7 +64,6 @@ class _Home_PageState extends State<Home_Page> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
           Container(
@@ -145,86 +144,92 @@ class _Home_PageState extends State<Home_Page> {
                   )
                 ],
               )),
-          Padding(
-            padding: EdgeInsets.only(top: 15, left: 15, right: 15),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+                child:  Column(
                   children: [
-                    Text(
-                      'Services',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 24,
-                      ),
+                    Image.asset(
+                      'assets/face.gif',
+                      height: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.8,
                     ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          inkwel = 'Pressed See All';
-                        });
-                      },
-                      child: Text(
-                        'See All',
-                        style: TextStyle(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Services',
+                          style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Colors.pink),
+                            fontSize: 24,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              inkwel = 'Pressed See All';
+                            });
+                          },
+                          child: Text(
+                            'See All',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                                color: Colors.pink),
+                          ),
+                        )
+                      ],
+                    ),
+                    GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1.1,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
                       ),
-                    )
-                  ],
-                ),
-                GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1.1,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: serviceicons.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => serviceicons[index].page
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: serviceicons.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => serviceicons[index].page
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: serviceicons[index].color,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: serviceicons[index].icon,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                serviceicons[index].title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: serviceicons[index].color,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: serviceicons[index].icon,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            serviceicons[index].title,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                )
-              ],
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
-          Text(inkwel),
         ],
       ),
     );

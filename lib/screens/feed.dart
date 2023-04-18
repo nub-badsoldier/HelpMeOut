@@ -70,7 +70,7 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  Stream<QuerySnapshot> feedref = FirebaseFirestore.instance.collection("feeds").snapshots();
+  Stream<QuerySnapshot> feedref = FirebaseFirestore.instance.collection("feeds").orderBy("timestamp",descending: true).snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +94,8 @@ class _FeedState extends State<Feed> {
                 desc: data['desc'],
                 likes: data['likes'],
                 attachment: data['url'],
+                postid: data['postid'],
+                timestamp: (data['timestamp'] as Timestamp).toDate(),
               );
             }).toList();
             return Column(children: feedlist);
