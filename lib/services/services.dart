@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'FirstPage.dart';
+import '../screens/FirstPage.dart';
 
 class Service {
   final _auth = FirebaseAuth.instance;
@@ -23,14 +23,12 @@ class Service {
       UserCredential result = await _auth.signInWithCredential(authCredential);
       User? user = result.user;
       print(user);
-      print("########");
-      print(user?.email);
-      print(user?.photoURL);
       if (result != null) {
         final userInst = FirebaseFirestore.instance.collection("user");
-        userInst.doc(user?.uid).get().then(
-          (DocumentSnapshot snapshot) {
-            if (!snapshot.exists) {
+        final query = userInst.where(userInst.doc().id, isEqualTo: user?.uid);
+        query.get().then(
+          (querySnapshot) {
+            if (querySnapshot.docs.length == 0) {
               final uploadData = <String, dynamic>{
                 'uid': user?.uid,
                 'name': user?.displayName,

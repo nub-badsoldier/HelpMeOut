@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:helpmeout/services/sell.dart';
 
+import 'Buy.dart';
+
 class Sell extends StatefulWidget {
   const Sell({Key? key}) : super(key: key);
 
@@ -26,8 +28,8 @@ class _SellState extends State<Sell> {
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () {
-                      //   Navigator.push(context,
-                      //       MaterialPageRoute(builder: (context) => ));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Buy()));
                     },
                     child: Text(
                       'Buy',
@@ -42,8 +44,8 @@ class _SellState extends State<Sell> {
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => sell()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => sell()));
                     },
                     child: Text(
                       'Sell',

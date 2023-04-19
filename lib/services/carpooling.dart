@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helpmeout/services/carpooling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:helpmeout/services/pool.dart';
 

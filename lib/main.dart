@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
 import 'services/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:helpmeout/services/FirstPage.dart';
+import 'package:helpmeout/screens/FirstPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,22 +54,59 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/Logo.jpg',
-              width: 150,
-              height: 150,
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.5,
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(150),
+                ),
+              ),
             ),
-            SizedBox(height: 16),
-            Text(
-              'IIITA Students Service Sharing System',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.height * 0.4,
+              decoration: BoxDecoration(
+                color: Colors.pinkAccent,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(150),
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/Logo.jpg',
+                  height: 200,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'IIITA Service Sharing',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple[800],
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -91,6 +128,7 @@ class _GsignState extends State<Gsign> {
         title: const Text(
           'IIITA Service Sharing',
         ),
+        backgroundColor: Colors.pink,
       ),
       body: Center(
         child: Column(

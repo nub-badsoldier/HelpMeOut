@@ -46,8 +46,8 @@ class _EditProfileState extends State<EditProfile> {
   bool uploading = false;
 
   void saveDetails() async {
-    var uid = FirebaseAuth.instance.currentUser?.uid;
-    final userInst = FirebaseFirestore.instance.collection("user").doc(uid);
+    var uid = await FirebaseAuth.instance.currentUser?.uid;
+    final userInst = await FirebaseFirestore.instance.collection("user").doc(uid);
     await userInst.update({
       'id': _idController.text,
       'hostel': _hostelController.text,
