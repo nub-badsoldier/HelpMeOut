@@ -72,7 +72,7 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 20.0),
               Text(
                 'ID',
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 20.0),
               ),
               TextField(
                 controller: _idController,
@@ -81,16 +81,16 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 20.0),
               Text(
                 'Email',
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 20.0),
               ),
               TextField(
                 controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.none,
               ),
               SizedBox(height: 20.0),
               Text(
                 'Batch',
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 20.0),
               ),
               TextField(
                 controller: _batchController,
@@ -98,23 +98,23 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 20.0),
               Text(
                 'Hostel',
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 20.0),
               ),
               TextField(
                 controller: _hostelController,
               ),
               SizedBox(height: 20.0),
-              Text(
-                'Blood Group',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              TextField(
-                controller: _bloodGroupController,
-              ),
-              SizedBox(height: 20.0),
-              Text(
-                'Contact',
-                style: TextStyle(fontSize: 16.0),
+              Row(
+                children: [
+                  Text(
+                    'Contact',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  TextButton(
+                      onPressed: null,
+                      child: Icon(Icons.info_outlined, color: Colors.red)
+                  ),
+                ],
               ),
               TextField(
                 controller: _contactController,

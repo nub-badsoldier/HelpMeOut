@@ -14,6 +14,7 @@ class FirstPage extends StatelessWidget {
       title: 'HelpMeOut',
       home: Display(),
       theme: ThemeData(
+        primaryColor: Color(0xFF68B1D0),
         brightness: Brightness.light,
       ),
       debugShowCheckedModeBanner: false,
@@ -48,6 +49,7 @@ class _DisplayState extends State<Display> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screenOptions.elementAt(selectedIndex),
+      backgroundColor: Color(0xFFE4F4FD),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         currentIndex: selectedIndex,
@@ -60,22 +62,22 @@ class _DisplayState extends State<Display> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.pink,
+            backgroundColor: Color(0xFF68B1D0),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.newspaper),
             label: 'Feed',
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFF68B1D0),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chat',
-            backgroundColor: Colors.pink,
+            backgroundColor: Color(0xFF68B1D0),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.pink,
+            backgroundColor: Color(0xFF9EA8C7),
           )
         ],
       ),

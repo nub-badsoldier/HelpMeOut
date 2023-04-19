@@ -29,8 +29,8 @@ class _Chat_HomePageState extends State<Chat_HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Your Chats"),
+        title: const Text("Chats"),
+        backgroundColor: Color(0xFF68B1D0),
       ),
       body: SafeArea(
         child: Container(
@@ -135,6 +135,7 @@ class _Chat_HomePageState extends State<Chat_HomePage> {
           }));
         },
         child: const Icon(Icons.search),
+        backgroundColor: Color(0xFF68B1D0),
       ),
     );
   }

@@ -25,7 +25,7 @@ class Service {
       print(user);
       if (result != null) {
         final userInst = FirebaseFirestore.instance.collection("user");
-        final query = userInst.where(userInst.doc().id, isEqualTo: user?.uid);
+        final query = userInst.where("uid", isEqualTo: user?.uid);
         query.get().then(
           (querySnapshot) {
             if (querySnapshot.docs.length == 0) {

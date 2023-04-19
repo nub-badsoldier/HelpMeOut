@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.height * 0.5,
               decoration: BoxDecoration(
-                color: Colors.deepPurple,
+                color: Color(0xFF9EA8C7),
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(150),
                 ),
@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: MediaQuery.of(context).size.width * 0.4,
               height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
-                color: Colors.pinkAccent,
+                color: Color(0xCC68B8D8),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(150),
                 ),
