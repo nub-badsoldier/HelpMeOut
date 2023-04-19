@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/feed.dart';
 import '../screens/home.dart';
 import '../screens/profile.dart';
+import 'package:helpmeout/services/chat_home_page.dart';
 
 class FirstPage extends StatelessWidget {
   FirstPage({Key? key}) : super(key: key);
@@ -30,11 +31,10 @@ class Display extends StatefulWidget {
 class _DisplayState extends State<Display> {
   int selectedIndex = 0;
 
-  _DisplayState();
-
   final screenOptions = [
     Home_Page(),
     Feed_Page(),
+    Chat_HomePage(),
     Profile(),
   ];
 
@@ -66,6 +66,11 @@ class _DisplayState extends State<Display> {
             icon: Icon(Icons.newspaper),
             label: 'Feed',
             backgroundColor: Colors.green,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
+            backgroundColor: Colors.pink,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

@@ -106,10 +106,9 @@ class _Home_PageState extends State<Home_Page> {
                             onTap: () async {
                               Service service = Service();
                               await service.signOut();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyApp()));
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (BuildContext context) => Gsign()),
+                              );
                             },
                             child: Icon(
                               Icons.logout,

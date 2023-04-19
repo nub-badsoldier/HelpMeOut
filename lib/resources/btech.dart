@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:helpmeout/services/sem1.dart';
+import 'package:helpmeout/resources/courselist.dart';
+import 'package:helpmeout/components/Course.dart';
 
 class BTech extends StatelessWidget {
+  List<Course> Sem1 = [
+    Course(title: 'Physics', respath: 'resources/sem1/physics'),
+    Course(title: 'Linear Algebra', respath: 'resources/sem1/lal'),
+    Course(title: 'Introduction to Programming', respath: 'resources/sem1/itp'),
+    Course(title: 'FEE', respath: 'resources/sem1/fee'),
+    Course(title: 'Professional Communication', respath: 'resources/sem1/pfc'),
+    Course(title: 'Principles of Management', respath: 'resources/sem1/pom'),
+  ];
+
+  List<Course> Sem4 = [
+    Course(title: 'Priciples of Programming Language', respath: 'resources/sem4/ppl'),
+    Course(title: 'Computer Networks', respath: 'resources/sem4/cn'),
+    Course(title: 'Database Management Systems', respath: 'resources/sem1/dbms'),
+    Course(title: 'Design and Analysis of Algorithms', respath: 'resources/sem1/daa'),
+    Course(title: 'Software Engineering', respath: 'resources/sem1/se'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +40,7 @@ class BTech extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Sem1(),
+                      builder: (context) => Courses(courselist: Sem1),
                     ),
                   );
                 },
@@ -67,11 +85,11 @@ class BTech extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Sem4(),
+                      builder: (context) => Courses(courselist: Sem4),
                     ),
                   );
                 },
-                child: Text('sem 4'),
+                child: Text('Sem 4'),
               ),
               SizedBox(height: 16.0),
               ElevatedButton(

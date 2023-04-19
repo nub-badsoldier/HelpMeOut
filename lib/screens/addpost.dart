@@ -48,7 +48,7 @@ class _AddPostState extends State<AddPost> {
       UploadTask uploadTask = storage.putFile(imageFile!);
       downloadURL = await (await uploadTask).ref.getDownloadURL();
     }
-    FirebaseFirestore.instance.collection("feeds").add({
+    FirebaseFirestore.instance.collection("feeds").doc(postid).set(<String, dynamic>{
       'uid': uid,
       'desc': desc.trim(),
       'postid': postid,

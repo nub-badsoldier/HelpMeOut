@@ -32,6 +32,7 @@ class Service {
           (DocumentSnapshot snapshot) {
             if (!snapshot.exists) {
               final uploadData = <String, dynamic>{
+                'uid': user?.uid,
                 'name': user?.displayName,
                 'photourl': user?.photoURL,
                 'email': user?.email,
@@ -50,10 +51,10 @@ class Service {
             print('Stack Trace: $stackTrace');
           },
         );
-        // Navigator.pushReplacement(context,
-        //     MaterialPageRoute(builder: (context) => const FirstPage()));
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FirstPage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => FirstPage()));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => FirstPage()));
       } // if result not null we simply call the MaterialpageRoute,
       // for go to the HomePage screen
     }
@@ -67,6 +68,7 @@ class Service {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
+      print('Signed Out');
     } catch (e) {
       print('Error is signing out');
     }
