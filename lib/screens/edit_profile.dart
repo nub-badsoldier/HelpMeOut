@@ -43,6 +43,8 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
+  bool uploading = false;
+
   void saveDetails() async {
     var uid = FirebaseAuth.instance.currentUser?.uid;
     final userInst = FirebaseFirestore.instance.collection("user").doc(uid);
@@ -52,6 +54,7 @@ class _EditProfileState extends State<EditProfile> {
       'batch': _batchController.text,
       'contact': _contactController.text,
     });
+    Navigator.pop(context);
   }
 
   @override
@@ -120,12 +123,18 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // Save updated profile data here
                   saveDetails();
-                  Navigator.pop(context);
+                  setState(() {
+                    uploading = true;
+                  });
                 },
                 child: Text('Save'),
               ),
+              Container(
+                child: uploading
+                    ? Center(child: CircularProgressIndicator())
+                    : SizedBox(height: 5),
+              )
             ],
           ),
         ),
