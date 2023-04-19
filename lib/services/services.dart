@@ -6,8 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'FirstPage.dart';
 
 class Service {
-  final _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  );
   Future<void> signup(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
