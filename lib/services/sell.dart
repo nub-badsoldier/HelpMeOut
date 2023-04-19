@@ -14,6 +14,16 @@ class sell extends StatefulWidget {
 }
 
 class _sellState extends State<sell> {
+  String dropdownvalue = 'Electronics';
+  String category = '';
+  var items = [
+    'Electronics',
+    'Furniture',
+    'Books',
+    'Stationary',
+    'Vehicles',
+    'Others'
+  ];
   bool button = false;
   String description = '';
   String name = '';
@@ -49,7 +59,7 @@ class _sellState extends State<sell> {
       ;
       final UploadTask task = storage.putFile(sel_image!);
       var downloadURL = await (await task).ref.getDownloadURL();
-      FirebaseFirestore.instance.collection('sell').add({
+      FirebaseFirestore.instance.collection(category).add({
         'name': name,
         'contact': number,
         'description': description,
@@ -118,6 +128,34 @@ class _sellState extends State<sell> {
                                   color: Colors.grey,
                                 ),
                               )),
+                    Column(
+                      children: [
+                        Text('Select Category'),
+                        DropdownButton(
+                          // Initial Value
+                          value: dropdownvalue,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: items.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                              category = newValue;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                     TextField(
                       onChanged: (value) {
                         item = value;

@@ -6,7 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'FirstPage.dart';
 
 class Service {
-  );
+  final _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   Future<void> signup(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
@@ -27,9 +28,10 @@ class Service {
       print(user?.photoURL);
       if (result != null) {
         final userInst = FirebaseFirestore.instance.collection("user");
-        userInst.doc(user?.uid).get().then(
-          (DocumentSnapshot snapshot) {
-            if (!snapshot.exists) {
+        final query = userInst.where(userInst.doc().id, isEqualTo: user?.uid);
+        query.get().then(
+          (querySnapshot) {
+            if (querySnapshot.docs.length == 0) {
               final uploadData = <String, dynamic>{
                 'name': user?.displayName,
                 'photourl': user?.photoURL,
