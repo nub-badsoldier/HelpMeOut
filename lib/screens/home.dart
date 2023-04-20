@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../services/buyandsell.dart';
 import '../services/services.dart';
 import 'feedback.dart';
+import 'package:helpmeout/screens/FirstPage.dart';
 
 class Home_Page extends StatefulWidget {
   Home_Page({
@@ -43,14 +44,14 @@ class _Home_PageState extends State<Home_Page> {
         RecourcesPage()),
     ServiceIcon('Food Order', Image(image: AssetImage('assets/delivery-man.png'), width: 34, height: 34), Colors.green[200]!,
         FoodorderingPage()),
+    ServiceIcon('Mess Review', Image(image: AssetImage('assets/good-review.png'), width: 34, height: 34), Colors.redAccent,
+        MessFeedBackPage()),
     ServiceIcon('Buy & Sell', Image(image: AssetImage('assets/buy.png'), width: 34, height: 34), Colors.purple[200]!,
         Sell()),
-    ServiceIcon('Bus Book', Image(image: AssetImage('assets/vehicle.png'), width: 34, height: 34), Colors.red[200]!,
-        CarPoolingPage()),
-    ServiceIcon('Mess Feedback', Image(image: AssetImage('assets/good-review.png'), width: 34, height: 34), Colors.redAccent,
-        MessFeedBackPage()),
+    //ServiceIcon('Bus Book', Image(image: AssetImage('assets/vehicle.png'), width: 34, height: 34), Colors.red[200]!,
+        //CarPoolingPage()),
     ServiceIcon('Extra', Image(image: AssetImage('assets/lost-and-found.png'), width: 34, height: 34), Colors.redAccent,
-        CarPoolingPage()),
+        Display()),
   ];
 
   void showBottomModalSheet() {

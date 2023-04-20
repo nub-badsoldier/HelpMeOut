@@ -134,16 +134,6 @@ class _ProfileState extends State<Profile> {
           SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
-              color: Colors.green[100],
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            padding: EdgeInsets.all(10.0),
-            child: _buildProfileInfo('Blood Group', 'O+'),
-          ),
-          SizedBox(height: 25.0),
-          Container(
-            decoration: BoxDecoration(
               color: Colors.orange[100],
               borderRadius: BorderRadius.circular(10.0),
             ),

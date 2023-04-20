@@ -127,7 +127,7 @@ class _PoolRequestState extends State<PoolRequest> {
                   SizedBox(width: 50),
                   Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: Text(widget.fare.toString(),
+                    child: Text('${widget.fare}',
                         style: TextStyle(fontSize: 20)),
                   ),
                 ],

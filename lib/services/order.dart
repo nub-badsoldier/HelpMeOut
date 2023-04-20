@@ -4,37 +4,35 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class pool extends StatefulWidget {
-  const pool({Key? key}) : super(key: key);
+class order extends StatefulWidget {
+  const order({Key? key}) : super(key: key);
 
   @override
-  State<pool> createState() => _poolState();
+  State<order> createState() => _orderState();
 }
 
-class _poolState extends State<pool> {
+class _orderState extends State<order> {
   bool button = false;
-  String source = '';
-  String destination = '';
-  String type = '';
-  String name = '';
-  String Date = '';
-  String Time = '';
+  String platform = '';
+  String restro = '';
+  String date = '';
+  int itemcnt = 0;
   int fare = 0;
+  String name = '';
   String contact = '';
   bool show = false;
 
   uploadImage() async {
-      FirebaseFirestore.instance.collection('pool').add({
-        'source': source,
-        'destination': destination,
-        'type': type,
-        'date': Date,
-        'time': Time,
-        'fare': fare,
-        'name': name,
-        'contact': contact,
-      });
-      Navigator.of(context).pop();
+    FirebaseFirestore.instance.collection('order').add({
+      'platform': platform,
+      'restro': restro,
+      'date': date,
+      'itemcnt': itemcnt,
+      'fare': fare,
+      'name': name,
+      'contact': contact,
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -47,9 +45,9 @@ class _poolState extends State<pool> {
         : Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          onPressed : (){
-            Navigator.pop(context);
-        }
+            onPressed : (){
+              Navigator.pop(context);
+            }
         ),
         backgroundColor: HexColor('0047AB'),
         actions: [
@@ -63,7 +61,7 @@ class _poolState extends State<pool> {
         ],
         centerTitle: true,
         title: const Text(
-          'Pool request',
+          'Food Order',
         ),
       ),
       body: Padding(
@@ -73,51 +71,40 @@ class _poolState extends State<pool> {
             children: [
               TextField(
                 onChanged: (value) {
-                  source = value;
+                  platform = value;
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Source',
+                  hintText: 'Platform',
                   border: UnderlineInputBorder(),
                 ),
               ),
               TextField(
                 onChanged: (value) {
-                  destination = value;
+                  restro = value;
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Destination',
+                  hintText: 'Restaurant',
                   border: UnderlineInputBorder(),
                 ),
               ),
               TextField(
                 onChanged: (value) {
-                  type = value;
+                  date = value;
                 },
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(
-                  hintText: 'Type of Vehicle',
+                  hintText: 'Date of Order(dd/mm/yyyy)',
                   border: UnderlineInputBorder(),
                 ),
               ),
               TextField(
                 onChanged: (value) {
-                  Date = value;
+                  itemcnt = value as int;
                 },
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.number,
                 maxLines: null,
                 decoration: const InputDecoration(
-                  hintText: 'Date of travel(dd/mm/yyyy)',
-                  border: UnderlineInputBorder(),
-                ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  Time = value;
-                },
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Time of Journey(24 hrs format)',
+                  hintText: 'Items Bought till now',
                   border: UnderlineInputBorder(),
                 ),
               ),
@@ -128,7 +115,7 @@ class _poolState extends State<pool> {
                 keyboardType: TextInputType.number,
                 maxLines: null,
                 decoration: const InputDecoration(
-                  hintText: 'Fare per head',
+                  hintText: 'Bill Amount',
                   border: UnderlineInputBorder(),
                 ),
               ),

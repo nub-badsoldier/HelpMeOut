@@ -104,7 +104,7 @@ class _PostState extends State<Post> {
                   Text(
                     userName,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -112,7 +112,7 @@ class _PostState extends State<Post> {
                   Text(
                     time_stamp,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w200,
                     ),
                   )
