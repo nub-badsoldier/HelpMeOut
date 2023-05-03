@@ -6,6 +6,8 @@ import 'dart:async';
 import 'services/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:helpmeout/screens/FirstPage.dart';
+import 'package:flutter/animation.dart';
+import 'package:multiutillib/multiutillib.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -123,43 +125,86 @@ class _GsignState extends State<Gsign> {
   bool isLoading = false;
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'IIITA Service Sharing',
-        ),
-        backgroundColor: Colors.pink,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/Logo.jpg',
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
-                    minimumSize: Size(double.infinity, 50)),
-                onPressed: () {
-                  Service variable = Service();
-                  variable.signup(context);
-                },
-                icon: const FaIcon(
-                  FontAwesomeIcons.google,
-                  color: Colors.red,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 400,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/background.png'),
+                        fit: BoxFit.fill
+                    )
                 ),
-                label: const Text('Sign in with Google'),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned(
+                      left: 30,
+                      width: 80,
+                      height: 200,
+                      child: FadeAnimation(
+                          delay: 1,
+                          child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/light-1.png')
+                            )
+                        ),
+                      )),
+                    ),
+                    Positioned(
+                      left: 140,
+                      width: 80,
+                      height: 150,
+                      child: FadeAnimation(delay:1.3,child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/light-2.png')
+                            )
+                        ),
+                      )),
+                    ),
+                    Positioned(
+                      right: 40,
+                      top: 40,
+                      width: 80,
+                      height: 150,
+                      child: FadeAnimation(delay:1.5,child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/clock.png')
+                            )
+                        ),
+                      )),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ]
-        )
-      ),
+              Padding(
+                padding: EdgeInsets.all(30.0),
+                child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary: Colors.black,
+                                minimumSize: Size(double.infinity, 50)),
+                            onPressed: () {
+                              Service variable = Service();
+                              variable.signup(context);
+                            },
+                            icon: const FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Colors.deepPurple,
+                            ),
+                            label: const Text('Sign in with Google'),
+                          ),
+
+              )
+            ],
+          ),
+        ),
+      )
     );
   }
 }
