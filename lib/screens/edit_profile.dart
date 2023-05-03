@@ -213,7 +213,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   TextButton(
                       onPressed: () async {
-                        if (_contactController.text != "" && verified == false) {
+                        if ((_contactController.text != widget.profileData.contact || widget.profileData.contact == "") && verified == false) {
                           var result = await _sendOtp(_contactController.text);
                           if (result == false) {
                             _contactController.clear();
@@ -223,7 +223,7 @@ class _EditProfileState extends State<EditProfile> {
                           setState(() {});
                         }
                       },
-                      child: (_contactController.text != "" && (_contactController.text == widget.profileData.contact || verified == true))
+                      child: (_contactController.text == widget.profileData.contact || verified == true)
                       ? Icon(Icons.verified, color: Colors.green)
                           : Icon(Icons.info_outlined, color: Colors.red)
                   ),
@@ -236,9 +236,7 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  if (_contactController.text != widget.profileData.contact && verified == false) {
-
-                  }else {
+                  if (verified == true || _contactController.text == widget.profileData.contact) {
                     saveDetails();
                     setState(() {
                       uploading = true;

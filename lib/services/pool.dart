@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -16,22 +16,21 @@ class _poolState extends State<pool> {
   String source = '';
   String destination = '';
   String type = '';
-  String name = '';
   String Date = '';
   String Time = '';
   int fare = 0;
   String contact = '';
   bool show = false;
 
-  uploadImage() async {
-      FirebaseFirestore.instance.collection('pool').add({
+  uploadRequest() async {
+      await FirebaseFirestore.instance.collection('pool').add({
         'source': source,
         'destination': destination,
         'type': type,
         'date': Date,
         'time': Time,
         'fare': fare,
-        'name': name,
+        'name': await FirebaseAuth.instance.currentUser!.displayName!,
         'contact': contact,
       });
       Navigator.of(context).pop();
@@ -55,7 +54,7 @@ class _poolState extends State<pool> {
         actions: [
           IconButton(
               onPressed: () {
-                uploadImage();
+                uploadRequest();
               },
               icon: const Icon(
                 Icons.upload,
@@ -129,17 +128,6 @@ class _poolState extends State<pool> {
                 maxLines: null,
                 decoration: const InputDecoration(
                   hintText: 'Fare per head',
-                  border: UnderlineInputBorder(),
-                ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  name = value;
-                },
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Name',
                   border: UnderlineInputBorder(),
                 ),
               ),

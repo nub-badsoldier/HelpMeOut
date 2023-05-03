@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../screens/FirstPage.dart';
+import 'package:helpmeout/main.dart';
 
 class Service {
   final _auth = FirebaseAuth.instance;
   bool domaincheck = true;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  GoogleSignIn _googleSignIn = GoogleSignIn();
   Future<void> signup(BuildContext context) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount =
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
     var email = googleSignInAccount!.email;
+    print(email);
     RegExp domain = RegExp(r'^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]+@iiita.ac.in$');
     if(!domain.hasMatch(email)){
       domaincheck = false;
@@ -24,6 +26,8 @@ class Service {
         );
       }
       );
+      googleSignInAccount.clearAuthCache();
+      _googleSignIn.signOut();
     }
     if (domaincheck && googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -68,6 +72,8 @@ class Service {
         //     context, MaterialPageRoute(builder: (context) => FirstPage()));
       } // if result not null we simply call the MaterialpageRoute,
       // for go to the HomePage screen
+    }else {
+      domaincheck = true;
     }
   }
 

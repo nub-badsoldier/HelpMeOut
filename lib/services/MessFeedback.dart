@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MessFeedBackPage extends StatefulWidget {
   const MessFeedBackPage({Key? key}) : super(key: key);
@@ -9,60 +10,29 @@ class MessFeedBackPage extends StatefulWidget {
 }
 
 class _MessFeedBackState extends State<MessFeedBackPage> {
+  late final WebViewController controller;
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text('Mess Feedback'),
-          ),
-          body: Center(child: Column(children: <Widget>[
-            Column(
-          children: [
-          Container(
-              padding: EdgeInsets.all(16.0),
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ExternalLinkButton(
-                url: 'https://forms.gle/9PkUDiHbB7WNR4aa9',
-                buttonText: 'Boys Hostel',
-              ),
-            ),
-          ),
-        Container(
-          padding: EdgeInsets.all(16.0),
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ExternalLinkButton(
-              url: 'https://forms.gle/16RSFgwZ8Tj4MgLg9',
-              buttonText: 'Girls Hostel',
-            ),
-          ),
-        ),]
-              ),
-          ]
-          ))
-      ),
-    );
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(
+        Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLSeocOxRZHwbCoehtuiTEfiLKfZdXHuyM1jYzT8cLoOjPXn0bg/viewform'),
+
+      );
   }
-}
-class ExternalLinkButton extends StatelessWidget {
-  final String url;
-  final String buttonText;
-
-  ExternalLinkButton({required this.url, required this.buttonText});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
-        if (await canLaunch(url)) {
-          await launch(url);
-        } else {
-          throw 'Could not launch $url';
-        }
-      },
-      child: Text(buttonText),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mess Feedback'),
+      ),
+      body: WebViewWidget(
+        controller: controller,
+      )
     );
   }
 }
