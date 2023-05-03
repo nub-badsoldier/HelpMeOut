@@ -40,6 +40,7 @@ dependencies:
   url_launcher: ^6.1.10
   cloud_firestore: ^4.5.0
   flutter_document_picker: ^5.1.0
+  easy_pdf_viewer: ^1.0.6
   #url_launcher: ^6.1.10
 
 dev_dependencies:

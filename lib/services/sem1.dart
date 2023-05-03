@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:flutter_document_picker/flutter_document_picker.dart';
+import 'package:path/path.dart';
 
 class Sem1 extends StatelessWidget {
   @override
@@ -116,23 +117,28 @@ class Sem1 extends StatelessWidget {
   }
 }
 
-class Physics extends StatelessWidget {
+class Physics extends StatefulWidget {
+  const Physics({Key? key}) : super(key: key);
+
+  @override
+  State<Physics> createState() => _PhysicsState();
+}
+
+class _PhysicsState extends State<Physics> {
+  String storagepath = "resources/sem1/physics";
+  List<Reference> filelist = [];
+
+  bool loaded = false;
 
   Future<UploadTask> uploadFile(File file) async {
-    // if (file == null) {
-    //
-    //   return null;
-    // }
-
     UploadTask uploadTask;
+    String filename = basename(file.path);
 
     // Create a Reference to the file
     final storage=FirebaseStorage.instance
         .ref()
-        .child('resources/')
-        .child('sem1/')
-        .child('physics/')
-        .child(file.path);
+        .child(storagepath)
+        .child(filename);
 
     final metadata = SettableMetadata(
         contentType: 'file/pdf',
@@ -145,23 +151,79 @@ class Physics extends StatelessWidget {
     return Future.value(uploadTask);
   }
 
+  Future<void> getFiles() async {
+    final reference = await FirebaseStorage.instance.ref()
+        .child(storagepath)
+        .listAll();
+
+    reference.items.forEach((Reference reference) {
+      filelist.add(reference);
+    });
+    setState(() {
+      loaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getFiles();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Physics'),
       ),
-      body: SingleChildScrollView(
+      body: loaded
+        ? SingleChildScrollView(
           padding: EdgeInsets.all(16.0), // Add padding around buttons
-          child: Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("OOPS! Nothing is Found :("),
-                  ]
-              )
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 1.1,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: filelist.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlueAccent[200],
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Center(
+                        child: Icon(Icons.file_copy),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      filelist[index].name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           )
-      ),
+      )
+      : Center(child: CircularProgressIndicator()),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async{
