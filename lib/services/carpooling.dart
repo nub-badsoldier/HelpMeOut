@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,13 +23,14 @@ class _CarPoolingPageState extends State<CarPoolingPage> {
         body: SingleChildScrollView(
           child: Poolrequest(),
         ),
+        backgroundColor: Color(0xFFE4F4FD),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () => {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => pool()))
           },
-          backgroundColor: Colors.pink,
+          backgroundColor: Color(0xFF68B1D0),
         ),
       ),
     );
@@ -71,139 +71,123 @@ class _PoolRequestState extends State<PoolRequest> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.all(15),
       child: Card(
-        elevation: 8,
-        color: Color(0xFFffdbe0),
+        elevation: 5,
+        color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Column(
-          children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 5.0),
-            //
-            //   child: Text(widget.name!, style: TextStyle(fontSize: 20)),
-            // ),
-            ListTile(
-              leading: InkWell(
-                child: Icon(
-                  Icons.call,
-                ),
-                onTap: () {
-                  _makingPhoneCall();
-                },
-              ),
-              minLeadingWidth: 213,
-              title: Text(widget.name!, style: TextStyle(fontSize: 18)),
-              subtitle: Text(widget.contact!, style: TextStyle(fontSize: 18)),
-            ),
-            // Divider(),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 14, right: 14, top: 1, bottom: 1),
-              child: Row(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'FROM',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.circle, color: Color(0xFF68B1D0)),
+                          SizedBox(width: 10),
+                          Text(widget.source!,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on, color: Color(0xFF68B1D0)),
+                          SizedBox(width: 10),
+                          Text(widget.destination!,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                  Text(widget.source!, style: TextStyle(fontSize: 18)),
+                  Text(
+                    '\u{20B9} '+widget.fare.toString(),
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 14, right: 14, top: 1, bottom: 1),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              SizedBox(height: 10),
+              Row(
                 children: [
-                  Text('TO',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text(widget.destination!, style: TextStyle(fontSize: 18)),
+                  Icon(Icons.drive_eta, color: Color(0xFF68B1D0)),
+                  SizedBox(width: 10),
+                  Text(widget.type!,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  )
                 ],
               ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 14, right: 14, top: 1, bottom: 1),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('DATE',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text(widget.Date!, style: TextStyle(fontSize: 18)),
+                  Row(
+                    children: [
+                      Icon(Icons.date_range, color: Color(0xFF68B1D0)),
+                      SizedBox(width: 10),
+                      Text(widget.Date!,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.access_time_outlined, color: Color(0xFF68B1D0)),
+                      SizedBox(width: 10),
+                      Text(widget.Time!,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 14, right: 14, top: 1, bottom: 1),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('TIME',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text(widget.Time!, style: TextStyle(fontSize: 18)),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 14, right: 14, top: 1, bottom: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('MODE',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text(widget.type!, style: TextStyle(fontSize: 18)),
-                ],
-              ),
-            ),
-            // Padding(
-            //   padding:
-            //       const EdgeInsets.only(left: 8, right: 8, top: 1, bottom: 1),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Column(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           Text('DATE',
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, fontSize: 20)),
-            //           Text(widget.Date!, style: TextStyle(fontSize: 20)),
-            //         ],
-            //       ),
-            //       SizedBox(width: 50),
-            //       Padding(
-            //         padding: const EdgeInsets.all(2.0),
-            //         child: Text(widget.fare.toString(),
-            //             style: TextStyle(fontSize: 20)),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            SizedBox(width: 5),
-
-            // Padding(
-            //   padding: const EdgeInsets.all(4.0),
-            //   child: Text(widget.contact!, style: TextStyle(fontSize: 20)),
-            // ),
-          ],
-        ),
-      ),
+              SizedBox(height: 15),
+              ListTile(
+                leading: Image.asset('assets/avataricon.png'),
+                title: Text(widget.name!,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                subtitle: Text(widget.contact!,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                trailing: InkWell(
+                  child: Icon(
+                    Icons.call,
+                    size: 30,
+                    color: Colors.green,
+                  ),
+                  onTap: () {
+                    _makingPhoneCall();
+                  },
+                ),
+              )
+            ],
+          ),
+        )
+      )
     );
   }
 }

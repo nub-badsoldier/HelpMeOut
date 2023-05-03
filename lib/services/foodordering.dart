@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'order.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FoodorderingPage extends StatefulWidget {
   const FoodorderingPage({Key? key}) : super(key: key);
@@ -17,18 +18,19 @@ class _FoodorderingState extends State<FoodorderingPage> {
         appBar: AppBar(
           title: Text('FOOD ORDER'),
           centerTitle: true,
-          backgroundColor: Colors.pink,
+          backgroundColor: Color(0xFF68B1D0),
         ),
         body: SingleChildScrollView(
           child: Bulkorder(),
         ),
+        backgroundColor: Color(0xFFE4F4FD),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () => {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => order()))
           },
-          backgroundColor: Colors.pink,
+          backgroundColor: Color(0xFF68B1D0),
         ),
       ),
     );
@@ -53,8 +55,127 @@ class BulkOrder extends StatefulWidget {
 }
 
 class _BulkOrderState extends State<BulkOrder> {
+  _makingPhoneCall() async {
+    // var url = Uri.parse(widget.number);
+    var url = Uri.parse('tel:' + widget.contact!);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Card(
+        elevation: 5,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.delivery_dining, color: Color(0xFF68B1D0)),
+                      SizedBox(width: 10),
+                      Text(widget.platform!,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(Icons.restaurant, color: Color(0xFF68B1D0)),
+                  SizedBox(width: 10),
+                  Text(widget.restro!,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.fastfood, color: Color(0xFF68B1D0)),
+                      SizedBox(width: 10),
+                      Text(widget.itemcnt.toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.currency_rupee, color: Color(0xFF68B1D0), size: 24,),
+                      SizedBox(width: 5),
+                      Text(widget.fare.toString(),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(Icons.date_range, color: Color(0xFF68B1D0)),
+                  SizedBox(width: 10),
+                  Text(widget.date!,
+                    style: TextStyle(
+                        fontSize: 20,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 15),
+              ListTile(
+                leading: Image.asset('assets/avataricon.png'),
+                title: Text(widget.name!,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                subtitle: Text(widget.contact!,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                trailing: InkWell(
+                  child: Icon(
+                    Icons.call,
+                    size: 30,
+                    color: Colors.green,
+                  ),
+                  onTap: () {
+                    _makingPhoneCall();
+                  },
+                ),
+              )
+            ],
+          ),
+        )
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Card(
