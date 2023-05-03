@@ -7,12 +7,25 @@ import '../screens/FirstPage.dart';
 
 class Service {
   final _auth = FirebaseAuth.instance;
+  bool domaincheck = true;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   Future<void> signup(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
-    if (googleSignInAccount != null) {
+    var email = googleSignInAccount!.email;
+    RegExp domain = RegExp(r'^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]+@iiita.ac.in$');
+    if(!domain.hasMatch(email)){
+      domaincheck = false;
+      showDialog(context: context, builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('Email Domain Error'),
+          content: Text('Sign in with College Email id'),
+        );
+      }
+      );
+    }
+    if (domaincheck && googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
       final AuthCredential authCredential = GoogleAuthProvider.credential(
