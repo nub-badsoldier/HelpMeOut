@@ -22,13 +22,13 @@ class _Feed_PageState extends State<Feed_Page> {
               Container(
                 padding: EdgeInsets.only(top: 35, left: 15, right: 15, bottom: 15),
                 height: 80,
-                color: Colors.green,
+                color: Color(0xFF68B1D0),
                 child: Row(
                   children: [
                     Text(
                       'Feed',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 28,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
@@ -53,6 +53,7 @@ class _Feed_PageState extends State<Feed_Page> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddPost()));
                 },
                 child: Icon(Icons.add),
+                backgroundColor: Color(0xFF68B1D0),
               )
             )
           )

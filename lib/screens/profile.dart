@@ -50,6 +50,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
+        backgroundColor: Color(0xFF9EA8C7),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.edit),

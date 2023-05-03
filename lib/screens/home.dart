@@ -8,6 +8,7 @@ import 'package:helpmeout/services/recources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/buyandsell.dart';
 import '../services/services.dart';
+import 'feedback.dart';
 
 class Home_Page extends StatefulWidget {
   Home_Page({
@@ -51,13 +52,76 @@ class _Home_PageState extends State<Home_Page> {
     ServiceIcon('Extra', Image(image: AssetImage('assets/lost-and-found.png'), width: 34, height: 34), Colors.redAccent,
         CarPoolingPage()),
   ];
-  /*void launchURl(String url) async {
-    if(await canLaunch(url) ){
-      await launchURL(url);
-    } else{
-      throw 'Could not launch $url';
-    }
-  }*/
+
+  void showBottomModalSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 250,
+          padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackScreen()));
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF68B1D0),
+                    borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Text(
+                    "FeedBack",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              InkWell(
+                onTap: () async {
+                  Service service = Service();
+                  await service.signOut();
+                  Navigator.pop(context);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (BuildContext context) => Gsign()),
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF68B1D0),
+                      borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Text(
+                    "LogOut",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   String inkwel = '';
   @override
@@ -75,7 +139,7 @@ class _Home_PageState extends State<Home_Page> {
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                color: Colors.pink,
+                color: Color(0xFF68B1D0),
               ),
               child: Column(
                 children: [
@@ -94,25 +158,20 @@ class _Home_PageState extends State<Home_Page> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: showBottomModalSheet,
                             child: Icon(
-                              Icons.notifications,
+                              Icons.settings,
                               size: 30,
                               color: Colors.white,
                             ),
                           ),
                           SizedBox(width: 10),
                           InkWell(
-                            onTap: () async {
-                              Service service = Service();
-                              await service.signOut();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyApp()));
+                            onTap: () {
+
                             },
                             child: Icon(
-                              Icons.logout,
+                              Icons.notifications,
                               size: 30,
                               color: Colors.white,
                             ),
@@ -175,7 +234,7 @@ class _Home_PageState extends State<Home_Page> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20,
-                                color: Colors.pink),
+                                color: Colors.blue),
                           ),
                         )
                       ],

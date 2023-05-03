@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpmeout/services/btech.dart';
+import 'package:helpmeout/resources/btech.dart';
 
 class RecourcesPage extends StatefulWidget {
   const RecourcesPage({Key? key}) : super(key: key);
